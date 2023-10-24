@@ -1,0 +1,7 @@
+#pragma once
+enum OBSERVABLE_OBJECTS
+{
+	CAMERA_VIEW = 1,
+	CAMERA_PERSPECTIVE = 2,
+	LIGHT = 4
+};
