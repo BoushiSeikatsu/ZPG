@@ -51,10 +51,10 @@ bool ShaderProgram::assembleProgram()
 	return true;
 }
 
-void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS choice)
+void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type)
 {
 	use();
-	switch (choice)
+	switch (type)
 	{
 		case CAMERA_VIEW:
 		{
@@ -70,16 +70,16 @@ void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS choice)
 		}
 		default:
 		{
-			printf("Wrong observable object passed into shader!\n");
+			printf("Wrong type of observable object passed into shader - matrix part!\n");
 		}
 	}
 	disable();
 }
 
-void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS choice)
+void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 {
 	use();
-	switch (choice)
+	switch (type)
 	{
 		case CAMERA_POSITION:
 		{
@@ -93,22 +93,55 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS choice)
 			glUniform3fv(lpVectorLocation, 1, &newVector[0]);
 			break;
 		}
-		
 		case LIGHT_COLOR:
 		{
 			GLint lcVectorLocation = glGetUniformLocation(*this->shaderProgram, "lightColor");
 			glUniform3fv(lcVectorLocation, 1, &newVector[0]);
 			break;
 		}
-		
+		case MATERIAL_AMBIENT:
+		{
+			GLint maVectorLocation = glGetUniformLocation(*this->shaderProgram, "material.ambient");
+			glUniform3fv(maVectorLocation, 1, &newVector[0]);
+			break;
+		}
+		case MATERIAL_DIFFUSE:
+		{
+			GLint mdVectorLocation = glGetUniformLocation(*this->shaderProgram, "material.diffuse");
+			glUniform3fv(mdVectorLocation, 1, &newVector[0]);
+			break;
+		}
+		case MATERIAL_SPECULAR:
+		{
+			GLint mcVectorLocation = glGetUniformLocation(*this->shaderProgram, "material.specular");
+			glUniform3fv(mcVectorLocation, 1, &newVector[0]);
+			break;
+		}
 		default:
 		{
-			printf("Wrong observable object passed into shader!\n");
+			printf("Wrong type of observable object passed into shader - vector part!\n");
 			break;
 		}
 			
 	}
 	disable();
+}
+
+void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
+{
+	switch (type)
+	{
+		case MATERIAL_SHININESS:
+		{
+			GLint msFloatLocation = glGetUniformLocation(*this->shaderProgram, "material.shininess");
+			glUniform1f(msFloatLocation, newValue);
+			break;
+		}
+		default:
+		{
+			printf("Wrong type of observable object passed into shader - float part!\n");
+		}
+	}
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)

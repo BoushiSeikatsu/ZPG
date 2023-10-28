@@ -1,7 +1,17 @@
 #version 400
 		in vec4 worldPosition;
 		in vec3 normalVector;
+
 		out vec4 fragColor;
+
+		struct Material {
+			vec3 ambient;
+			vec3 diffuse;
+			vec3 specular;
+			float shininess;
+		};
+
+		uniform Material material;
 		uniform vec3 cameraPosition;
 		uniform vec3 lightPosition;
 		uniform vec3 lightColor;

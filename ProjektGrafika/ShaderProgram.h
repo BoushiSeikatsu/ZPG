@@ -25,9 +25,12 @@ public:
 	bool linkTransformation(const char* matrixName, glm::mat4 matrix);
 	bool assembleProgram();
 	// Inherited via Observer
-	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS choice) override;
+	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) override;
 
 	// Inherited via Observer
-	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS choice) override;
+	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) override;
+
+	// Inherited via Observer
+	virtual void update(float newValue, OBSERVABLE_OBJECTS type) override;
 };
 

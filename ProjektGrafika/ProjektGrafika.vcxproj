@@ -137,6 +137,7 @@
     <ClCompile Include="ComplexShape.cpp" />
     <ClCompile Include="Lighting.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="ObserverSubject.cpp" />
     <ClCompile Include="Rectangle.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="CameraCallback.h" />
     <ClInclude Include="ComplexShape.h" />
     <ClInclude Include="Lighting.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Models\bushes.h" />
     <ClInclude Include="Models\gift.h" />
     <ClInclude Include="Models\plain.h" />
