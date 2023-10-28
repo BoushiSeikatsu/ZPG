@@ -6,6 +6,7 @@
 #include "Rectangle.h"
 #include "ShaderProgram.h"
 #include "Transformation.h"
+#include "Material.h"
 using namespace std;
 
 /*VAO NESMI OPUSTIT MODEL*/
@@ -24,6 +25,7 @@ private:
 	Shape* shape;
 	glm::mat4 matrix;
 	ShaderProgram* program;
+	Material* material;
 	/// <summary>
 	/// Inicializuje VBO a VAO
 	/// </summary>
@@ -38,5 +40,6 @@ public:
 	bool useVAO();
 	void runTransformation(Transformation* composite);
 	void setProgram(ShaderProgram* p);
+	void setMaterial(Material* m);
 };
 

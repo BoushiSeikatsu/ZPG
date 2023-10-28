@@ -8,19 +8,19 @@ DrawableObject::DrawableObject(OPTION o, const float* points, GLsizeiptr size, i
 	createVertexObjects(points, size);
 	switch (o)
 	{
-	case 0:
+	case MAKE_TRIANGLE:
 	{
 		Triangle* model = new Triangle(&this->VBO, &this->VAO, startingPosition, count, Flags);
 		this->shape = model;
 		break;
 	}
-	case 1:
+	case MAKE_RECTANGLE:
 	{
 		Rectangle* model = new Rectangle(&this->VBO, &this->VAO, startingPosition, count, Flags);
 		this->shape = model;
 		break;
 	}
-	case 2:
+	case MAKE_COMPLEX:
 	{
 		ComplexShape* model = new ComplexShape(&this->VBO, &this->VAO, startingPosition, count, Flags);
 		this->shape = model;
@@ -33,6 +33,8 @@ DrawableObject::~DrawableObject()
 {
 	delete shape;
 	shape = nullptr;
+	delete material;
+	material = nullptr;
 }
 
 
@@ -74,4 +76,16 @@ void DrawableObject::runTransformation(Transformation* t)
 void DrawableObject::setProgram(ShaderProgram* p)
 {
 	this->program = p;
+}
+
+void DrawableObject::setMaterial(Material* m)
+{
+	this->material = m;
+	//Add shader of this material into followers
+	this->material->addFollower(this->program);
+	//Notify that all 4 properties have changed (we setup the material)
+	this->material->notifyPropertyChanged(MATERIAL_AMBIENT);
+	this->material->notifyPropertyChanged(MATERIAL_DIFFUSE);
+	this->material->notifyPropertyChanged(MATERIAL_SPECULAR);
+	this->material->notifyPropertyChanged(MATERIAL_SHININESS);
 }

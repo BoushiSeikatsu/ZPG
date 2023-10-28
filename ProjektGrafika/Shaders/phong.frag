@@ -18,18 +18,18 @@
 		void main()
 		{
 			//Ambient part
-			vec3 ambient = vec3(0.1, 0.1, 0.1);
+			vec3 ambient = material.ambient * vec3(0.1, 0.1, 0.1);
 
 			vec3 norm = normalize(normalVector);
 			vec3 lightDir = normalize(lightPosition - worldPosition.xyz/worldPosition.w);
 			float diff = max(dot(lightDir, norm), 0.0);
-			vec3 diffuse = diff * lightColor;
+			vec3 diffuse =  lightColor * material.diffuse * diff;
 
 			vec3 viewDir = normalize(cameraPosition - worldPosition.xyz/worldPosition.w);
 			vec3 reflectDir = reflect(-lightDir, norm);
 			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
 			float specularStrength = 0.5;
-			vec3 specular = specularStrength * spec * lightColor;
+			vec3 specular = lightColor * material.specular * specularStrength * spec;
 			if (diff <= 0.0)
 			{
 				specular = vec3(0.0);

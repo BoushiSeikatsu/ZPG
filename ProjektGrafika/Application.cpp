@@ -141,20 +141,25 @@ bool Application::createShaders()
 
 bool Application::createModels()
 {
+	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16.0);
 	DrawableObject* d1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
 	d1->setProgram(listOfShaderPrograms.find(2)->second);
+	d1->setMaterial(material);
 	d1->runTransformation(listOfTransformations.find(0)->second);
 	listOfModels.insert({ 0,d1 });
 	DrawableObject* d2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
 	d2->setProgram(listOfShaderPrograms.find(2)->second);
+	d2->setMaterial(material);
 	d2->runTransformation(listOfTransformations.find(1)->second);
 	listOfModels.insert({ 1,d2 });
 	DrawableObject* d3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
 	d3->setProgram(listOfShaderPrograms.find(0)->second);
+	d3->setMaterial(material);
 	d3->runTransformation(listOfTransformations.find(2)->second);
 	listOfModels.insert({ 2,d3 });
 	DrawableObject* d4 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
 	d4->setProgram(listOfShaderPrograms.find(3)->second);
+	d4->setMaterial(material);
 	d4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 3,d4 });
 	glGetError();
