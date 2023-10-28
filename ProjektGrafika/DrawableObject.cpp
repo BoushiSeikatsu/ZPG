@@ -42,6 +42,7 @@ bool DrawableObject::drawShape()
 	useVAO();
 	program->linkTransformation("modelMatrix", this->matrix);
 	shape->createShape();
+	program->disable();
 	return true;
 }
 

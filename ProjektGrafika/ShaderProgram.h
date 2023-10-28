@@ -15,7 +15,7 @@ class ShaderProgram : public Observer
 {
 private:
 	vector<GLuint*> listBasicShaders;
-	GLuint* shaderProgram;
+	GLuint* shaderProgram;//shader_id
 public:
 	~ShaderProgram();
 	bool add(long shaderType, int numberOfElements,const char* parameters);
