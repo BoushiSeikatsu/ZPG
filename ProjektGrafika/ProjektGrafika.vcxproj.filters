@@ -169,5 +169,14 @@
     <None Include="Shaders\pos&amp;normal.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Shaders\ambient.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\blinn.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\lambert.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

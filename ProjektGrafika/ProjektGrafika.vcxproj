@@ -181,6 +181,9 @@
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\ambient.frag" />
+    <None Include="Shaders\blinn.frag" />
+    <None Include="Shaders\lambert.frag" />
     <None Include="Shaders\phong.frag" />
     <None Include="Shaders\pos&amp;normal.vert" />
   </ItemGroup>

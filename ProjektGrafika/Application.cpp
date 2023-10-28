@@ -94,127 +94,9 @@ bool Application::initialize()
 
 bool Application::createShaders()
 {
-	const char* vertex_shader =
-		"#version 330\n"
-		"layout(location=0) in vec3 vp;"
-		"layout(location=1) in vec4 inColor;"
-		"out vec4 outColor;"
-		"uniform mat4 modelMatrix;"
-		"uniform mat4 viewMatrix;"
-		"uniform mat4 projectionMatrix;"
-		"void main () {"
-		"     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4 (vp, 1.0);"
-		"	  outColor = inColor;"	
-		"}";
-
-	/*const char* fragment_shader =
-		"#version 330\n"
-		"in vec4 outColor;"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"     frag_colour = outColor;"
-		"}";*/
-	const char* vertex_shader2 =
-		"#version 400\n"
-
-		"layout(location=0) in vec3 vp;"
-		"layout(location=1) in vec3 vn;"
-
-		"out vec4 ex_worldPosition;"
-		"out vec3 ex_worldNormal;"
-
-		"uniform mat4 modelMatrix;"
-		"uniform mat4 viewMatrix;"
-		"uniform mat4 projectionMatrix;"
-
-		//"uniform mat3 normalMatrix; (M-1)T"
-		"void main() {"
-		"ex_worldPosition = modelMatrix * vec4(vp, 1.0);"
-		"mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));"
-		"ex_worldNormal = normalMatrix * vn;"
-		"gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
-		"}";
-	const char* fragment_shader =
-		"#version 400\n"
-		"in vec4 ex_worldPosition;"
-		"in vec3 ex_worldNormal;"
-		"out vec4 out_Color;"
-		"uniform vec3 cameraPosition;"
-		"uniform vec3 lightPosition;"
-		"uniform vec3 lightColor;"
-		"void main() {"
-		"vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
-		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
-		"out_Color = (ambient) * objectColor;"
-		"}";
-	const char* fragment_shader2 =
-		"#version 400\n"
-		"in vec4 ex_worldPosition;"
-		"in vec3 ex_worldNormal;"
-		"out vec4 out_Color;"
-		"uniform vec3 cameraPosition;"
-		"uniform vec3 lightPosition;"
-		"uniform vec3 lightColor;"
-		"void main() {"
-		"vec3 lightVector = lightPosition - ex_worldPosition.xyz;"//ex_worldPosition/ex_worldPosition.w
-		"float dot_product = max(dot(lightVector, normalize(ex_worldNormal)), 0.0);"
-		"vec4 diffuse = dot_product * vec4(lightColor,1.0);"
-		"vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
-		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
-		"out_Color = (ambient + diffuse) * objectColor;"
-		"}";
-	"}";
-	const char* fragment_shader3 =
-		"#version 400\n"
-		"in vec4 ex_worldPosition;"
-		"in vec3 ex_worldNormal;"
-		"out vec4 out_Color;"
-		"uniform vec3 cameraPosition;"
-		"uniform vec3 lightPosition;"
-		"uniform vec3 lightColor;"
-		"void main() {"
-		"vec3 lightVector = lightPosition - ex_worldPosition.xyz/ex_worldPosition.w;"//ex_worldPosition/ex_worldPosition.w
-		"float dot_product = max(dot(normalize(lightVector), normalize(ex_worldNormal)), 0.0);"
-		"vec4 diffuse = dot_product * vec4(lightColor, 1.0);"
-		"vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
-		"const float specularStrength = 0.4;"
-		"vec3 viewVector = cameraPosition - ex_worldPosition.xyz/ex_worldPosition.w;"
-		"vec3 reflectVector = reflect(-lightVector, normalize(ex_worldNormal));"
-		"float spec = pow(max(dot(normalize(viewVector), normalize(reflectVector)), 0.0), 16);"
-		"vec4 specular = specularStrength * spec * vec4(lightColor, 1.0);"
-		"if (dot_product <= 0.0) {"
-		"specular = vec4(0.0);"
-		"}"
-		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
-		"out_Color = (ambient + diffuse + specular) * objectColor;"
-		"}";
-	const char* fragment_shader4 =
-		"#version 400\n"
-		"in vec4 ex_worldPosition;"
-		"in vec3 ex_worldNormal;"
-		"out vec4 out_Color;"
-		"uniform vec3 cameraPosition;"
-		"uniform vec3 lightPosition;"
-		"uniform vec3 lightColor;"
-		"void main() {"
-		"vec3 lightVector = lightPosition - ex_worldPosition.xyz/ex_worldPosition.w;"//ex_worldPosition/ex_worldPosition.w
-		"float dot_product = max(dot(normalize(lightVector), normalize(ex_worldNormal)), 0.0);"
-		"vec4 diffuse = dot_product * vec4(lightColor, 1.0);"
-		"vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
-		"vec3 viewVector = cameraPosition - ex_worldPosition.xyz/ex_worldPosition.w;"
-		"vec3 halfVector = lightVector + viewVector;"
-		"const float specularStrength = 0.4;"
-		"float spec = pow(max(dot(normalize(halfVector), normalize(ex_worldNormal)), 0.0), 16);"
-		"vec4 specular = specularStrength * spec * vec4(lightColor, 1.0);"
-		"if (dot_product <= 0.0) {"
-		"specular = vec4(0.0);"
-		"}"
-		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
-		"out_Color = (ambient + diffuse + specular) * objectColor;"
-		"}";
 	ShaderProgram* program = new ShaderProgram();
-	program->add(GL_VERTEX_SHADER, 1, vertex_shader2);
-	program->add(GL_FRAGMENT_SHADER, 1, fragment_shader);
+	program->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	program->add("Shaders/ambient.frag", GL_FRAGMENT_SHADER, 1);
 	program->assembleProgram();
 	//Adding ShaderProgram as follower
 	camera->addFollower(program);
@@ -222,8 +104,8 @@ bool Application::createShaders()
 	this->listOfShaderPrograms.insert({ 0,program });
 
 	ShaderProgram* program2 = new ShaderProgram();
-	program2->add(GL_VERTEX_SHADER, 1, vertex_shader2);
-	program2->add(GL_FRAGMENT_SHADER, 1, fragment_shader2);
+	program2->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	program2->add("Shaders/lambert.frag", GL_FRAGMENT_SHADER, 1);
 	program2->assembleProgram();
 	//Adding ShaderProgram as follower
 	camera->addFollower(program2);
@@ -238,6 +120,15 @@ bool Application::createShaders()
 	camera->addFollower(program3);
 	//Adding ShaderProgram into map
 	this->listOfShaderPrograms.insert({ 2,program3 });
+
+	ShaderProgram* program4 = new ShaderProgram();
+	program4->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	program4->add("Shaders/blinn.frag", GL_FRAGMENT_SHADER, 1);
+	program4->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(program4);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 3,program4 });
 	//Set start camera for all the shaders
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
@@ -251,7 +142,7 @@ bool Application::createShaders()
 bool Application::createModels()
 {
 	DrawableObject* d1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	d1->setProgram(listOfShaderPrograms.find(0)->second);
+	d1->setProgram(listOfShaderPrograms.find(2)->second);
 	d1->runTransformation(listOfTransformations.find(0)->second);
 	listOfModels.insert({ 0,d1 });
 	DrawableObject* d2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
@@ -259,11 +150,11 @@ bool Application::createModels()
 	d2->runTransformation(listOfTransformations.find(1)->second);
 	listOfModels.insert({ 1,d2 });
 	DrawableObject* d3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
-	d3->setProgram(listOfShaderPrograms.find(2)->second);
+	d3->setProgram(listOfShaderPrograms.find(0)->second);
 	d3->runTransformation(listOfTransformations.find(2)->second);
 	listOfModels.insert({ 2,d3 });
 	DrawableObject* d4 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
-	d4->setProgram(listOfShaderPrograms.find(1)->second);
+	d4->setProgram(listOfShaderPrograms.find(3)->second);
 	d4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 3,d4 });
 	glGetError();
@@ -308,6 +199,7 @@ bool Application::createLighting()
 	light->addFollower(this->listOfShaderPrograms.find(0)->second);
 	light->addFollower(this->listOfShaderPrograms.find(1)->second);
 	light->addFollower(this->listOfShaderPrograms.find(2)->second);
+	light->addFollower(this->listOfShaderPrograms.find(3)->second);
 	//Initialize light to starting values
 	light->notifyPropertyChanged(LIGHT_POSITION);
 	light->notifyPropertyChanged(LIGHT_COLOR);
