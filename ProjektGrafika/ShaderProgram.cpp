@@ -19,9 +19,21 @@ bool ShaderProgram::add(long shaderType, int numberOfElements,const char* parame
 	return true;
 }
 
+bool ShaderProgram::add(const char* filePath, long shaderType, int numberOfElements)
+{
+	listBasicShaders.push_back(Shader::createShader(filePath, shaderType, numberOfElements));
+	return true;
+}
+
 bool ShaderProgram::use()
 {
 	glUseProgram(*shaderProgram);
+	return true;
+}
+
+bool ShaderProgram::disable()
+{
+	glUseProgram(0);
 	return true;
 }
 
@@ -61,6 +73,7 @@ void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS choice)
 			printf("Wrong observable object passed into shader!\n");
 		}
 	}
+	disable();
 }
 
 void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS choice)
@@ -95,6 +108,7 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS choice)
 		}
 			
 	}
+	disable();
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)

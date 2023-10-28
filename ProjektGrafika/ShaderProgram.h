@@ -19,7 +19,9 @@ private:
 public:
 	~ShaderProgram();
 	bool add(long shaderType, int numberOfElements,const char* parameters);
+	bool add(const char* filePath, long shaderType, int numberOfElements);
 	bool use();
+	bool disable();
 	bool linkTransformation(const char* matrixName, glm::mat4 matrix);
 	bool assembleProgram();
 	// Inherited via Observer

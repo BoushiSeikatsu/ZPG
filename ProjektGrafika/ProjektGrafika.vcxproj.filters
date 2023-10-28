@@ -16,6 +16,9 @@
     <Filter Include="Models">
       <UniqueIdentifier>{e5b83045-ee61-4300-b48a-6c1a7d074e3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{97957fd8-7d5b-4572-8621-88854ee9411d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,5 +161,13 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\phong.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\pos&amp;normal.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

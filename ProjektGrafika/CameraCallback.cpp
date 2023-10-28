@@ -8,7 +8,7 @@ float CameraCallback::lastX = 400;
 float CameraCallback::lastY = 300;
 void CameraCallback::onMouseMoved(GLFWwindow* window, double xpos, double ypos)
 {
-    //We can constraint yaw if we wanted to
+    //We can constrain yaw if we wanted to
     if (firstMouse)
     {
         lastX = xpos;
@@ -47,7 +47,7 @@ void CameraCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int
     const float cameraSpeed = 0.05f;
     glm::vec3 outputVector;
     switch (key) {
-    //case 'GLFW_ESCAPE_KEY': bRunning = false; break;
+    //case 'GLFW_ESCAPE_KEY': 
     case 'W':  outputVector = camera->getCameraPosition() + (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
     case 'S': outputVector = camera->getCameraPosition() - (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
     case 'A': 

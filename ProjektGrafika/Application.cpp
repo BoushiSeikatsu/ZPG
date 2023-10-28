@@ -130,8 +130,8 @@ bool Application::createShaders()
 		//"uniform mat3 normalMatrix; (M-1)T"
 		"void main() {"
 		"ex_worldPosition = modelMatrix * vec4(vp, 1.0);"
-		"mat4 normalMatrix = transpose(inverse(modelMatrix));"
-		"ex_worldNormal = vec3 ( normalMatrix * vec4 ( vn ,1.0));"
+		"mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));"
+		"ex_worldNormal = normalMatrix * vn;"
 		"gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);"
 		"}";
 	const char* fragment_shader =
@@ -157,7 +157,7 @@ bool Application::createShaders()
 		"uniform vec3 lightColor;"
 		"void main() {"
 		"vec3 lightVector = lightPosition - ex_worldPosition.xyz;"//ex_worldPosition/ex_worldPosition.w
-		"float dot_product = max(dot(normalize(lightVector), normalize(ex_worldNormal)), 0.0);"
+		"float dot_product = max(dot(lightVector, normalize(ex_worldNormal)), 0.0);"
 		"vec4 diffuse = dot_product * vec4(lightColor,1.0);"
 		"vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);"
 		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
@@ -180,7 +180,7 @@ bool Application::createShaders()
 		"const float specularStrength = 0.4;"
 		"vec3 viewVector = cameraPosition - ex_worldPosition.xyz/ex_worldPosition.w;"
 		"vec3 reflectVector = reflect(-lightVector, normalize(ex_worldNormal));"
-		"float spec = pow(max(dot(normalize(viewVector), reflectVector), 0.0), 16);"
+		"float spec = pow(max(dot(normalize(viewVector), normalize(reflectVector)), 0.0), 16);"
 		"vec4 specular = specularStrength * spec * vec4(lightColor, 1.0);"
 		"if (dot_product <= 0.0) {"
 		"specular = vec4(0.0);"
@@ -204,9 +204,9 @@ bool Application::createShaders()
 		"vec3 viewVector = cameraPosition - ex_worldPosition.xyz/ex_worldPosition.w;"
 		"vec3 halfVector = lightVector + viewVector;"
 		"const float specularStrength = 0.4;"
-		"float spec = pow(max(dot(normalize(halfVector), normalize(ex_worldNormal)), 0.0), 16.0);"
+		"float spec = pow(max(dot(normalize(halfVector), normalize(ex_worldNormal)), 0.0), 16);"
 		"vec4 specular = specularStrength * spec * vec4(lightColor, 1.0);"
-		"if (dot_product < 0.0) {"
+		"if (dot_product <= 0.0) {"
 		"specular = vec4(0.0);"
 		"}"
 		"vec4 objectColor = vec4 (0.385 ,0.647 ,0.812 ,1.0);"
@@ -223,7 +223,7 @@ bool Application::createShaders()
 
 	ShaderProgram* program2 = new ShaderProgram();
 	program2->add(GL_VERTEX_SHADER, 1, vertex_shader2);
-	program2->add(GL_FRAGMENT_SHADER, 1, fragment_shader4);
+	program2->add(GL_FRAGMENT_SHADER, 1, fragment_shader2);
 	program2->assembleProgram();
 	//Adding ShaderProgram as follower
 	camera->addFollower(program2);
@@ -231,8 +231,8 @@ bool Application::createShaders()
 	this->listOfShaderPrograms.insert({ 1,program2 });
 
 	ShaderProgram* program3 = new ShaderProgram();
-	program3->add(GL_VERTEX_SHADER, 1, vertex_shader2);
-	program3->add(GL_FRAGMENT_SHADER, 1, fragment_shader3);
+	program3->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER,1);
+	program3->add("Shaders/phong.frag", GL_FRAGMENT_SHADER, 1);
 	program3->assembleProgram();
 	//Adding ShaderProgram as follower
 	camera->addFollower(program3);
@@ -254,15 +254,15 @@ bool Application::createModels()
 	d1->setProgram(listOfShaderPrograms.find(0)->second);
 	d1->runTransformation(listOfTransformations.find(0)->second);
 	listOfModels.insert({ 0,d1 });
-	DrawableObject* d2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(sphere), 0, 2904, VERTICES | COLOR);
-	d2->setProgram(listOfShaderPrograms.find(1)->second);
+	DrawableObject* d2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+	d2->setProgram(listOfShaderPrograms.find(2)->second);
 	d2->runTransformation(listOfTransformations.find(1)->second);
 	listOfModels.insert({ 1,d2 });
-	DrawableObject* d3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(sphere), 0, 2904, VERTICES | COLOR);
+	DrawableObject* d3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
 	d3->setProgram(listOfShaderPrograms.find(2)->second);
 	d3->runTransformation(listOfTransformations.find(2)->second);
 	listOfModels.insert({ 2,d3 });
-	DrawableObject* d4 = new DrawableObject(MAKE_COMPLEX, tree, (GLsizeiptr)sizeof(sphere), 0, 92814, VERTICES | COLOR);
+	DrawableObject* d4 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
 	d4->setProgram(listOfShaderPrograms.find(1)->second);
 	d4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 3,d4 });
@@ -294,7 +294,7 @@ bool Application::createTransformation()
 	compositeMoveUp->add(t3);
 	listOfTransformations.insert({ 2,compositeMoveUp });
 
-	Translate* t4 = new Translate(glm::vec3(0.0f, -7.f, -1.f));
+	Translate* t4 = new Translate(glm::vec3(0.0f, -3.f, 0.f));
 	TransformationComposite* compositeMoveDown = new TransformationComposite();
 	compositeMoveDown->add(t4);
 	listOfTransformations.insert({ 3,compositeMoveDown });
