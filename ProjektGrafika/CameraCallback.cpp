@@ -78,6 +78,17 @@ void CameraCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int
         camera->setCameraPosition(outputVector);
         break;
     }
+    case GLFW_KEY_RIGHT:
+    {
+        //We should make main Callback class and that will distribute the calls to other Callback classes
+        SceneCallback::onKeyPressed(window, key, scancode, action, mods);
+        break;
+    }
+    case GLFW_KEY_LEFT:
+    {
+        SceneCallback::onKeyPressed(window, key, scancode, action, mods);
+        break;
+    }
     default: break;
     }
 }

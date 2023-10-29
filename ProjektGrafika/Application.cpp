@@ -91,6 +91,7 @@ bool Application::initialize()
 	glfwSetCursorPosCallback(window, CameraCallback::onMouseMoved);
 	//Binding key pressed callback
 	glfwSetKeyCallback(window, CameraCallback::onKeyPressed);
+	//glfwSetKeyCallback(window, SceneCallback::onKeyPressed);//Scene switching
 	glfwSetFramebufferSizeCallback(window, CameraCallback::framebufferSizeCallback);
 }
 
@@ -219,16 +220,28 @@ void Application::run()
 {
 	//glClearColor(1.0, 0.0, 0.0, 1.0);
 	printf("Size of sphere: %d\n", sizeof(sphere));
-	float bounds = 0.5;
-	bool movingRight = true;
+	SceneCallback::setSceneLimit(2);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		listOfModels.find(0)->second->drawShape();
-		listOfModels.find(1)->second->drawShape();
-		listOfModels.find(2)->second->drawShape();
-		listOfModels.find(3)->second->drawShape();
+		switch (SceneCallback::getSceneIndex())
+		{
+			case 0:
+			{
+				listOfModels.find(0)->second->drawShape();
+				listOfModels.find(1)->second->drawShape();
+				break;
+			}
+			case 1:
+			{
+				listOfModels.find(2)->second->drawShape();
+				listOfModels.find(3)->second->drawShape();
+				break;
+			}
+		}
+		
+		
 
 		
 		

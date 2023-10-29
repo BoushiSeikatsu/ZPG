@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <map>
 #include "CameraCallback.h"
+#include "SceneCallback.h"
 #include "DrawableObject.h"
 #include "ShaderProgram.h"
 #include "Transformation.h"
