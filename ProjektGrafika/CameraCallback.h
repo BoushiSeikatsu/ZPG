@@ -10,8 +10,9 @@ private:
 	static float pitch;
 	static float lastX;
 	static float lastY;
+	static bool rightClickPressed;
 public:
-	
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void onMouseMoved(GLFWwindow* window, double xpos, double ypos);
 	static void onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods);
 };

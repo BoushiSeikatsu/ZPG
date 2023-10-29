@@ -82,10 +82,11 @@ bool Application::initialize()
 	//Adding Camera
 	Camera* camera = new Camera();
 	this->camera = camera;
+	glfwSetMouseButtonCallback(window, CameraCallback::mouseButtonCallback);
 	//Binding camera into user pointer so we can use it in Callbacks
 	glfwSetWindowUserPointer(window, this->camera);
 	//Locking cursor in the middle of the screen 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//Binding mouse movement callback
 	glfwSetCursorPosCallback(window, CameraCallback::onMouseMoved);
 	//Binding key pressed callback

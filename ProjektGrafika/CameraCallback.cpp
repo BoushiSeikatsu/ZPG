@@ -6,39 +6,55 @@ float CameraCallback::yaw = -90.0;
 float CameraCallback::pitch = 0;
 float CameraCallback::lastX = 400;
 float CameraCallback::lastY = 300;
+bool CameraCallback::rightClickPressed = false;
+void CameraCallback::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+        rightClickPressed = true;
+    }
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+        rightClickPressed = false;
+    }
+}
+
 void CameraCallback::onMouseMoved(GLFWwindow* window, double xpos, double ypos)
 {
-    //We can constrain yaw if we wanted to
-    if (firstMouse)
+    if (rightClickPressed)
     {
+        if (firstMouse)
+        {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
         lastX = xpos;
         lastY = ypos;
-        firstMouse = false;
+        float sensitivity = 0.1f;
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+        yaw += xoffset;
+        pitch += yoffset;
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+        /* if (yaw > 0.f)
+             yaw = 0.f;
+         if (yaw < -179.0f)
+             yaw = -179.0f;*/
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        direction.y = sin(glm::radians(pitch));
+        direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        glm::vec3 cameraFront = glm::normalize(direction);
+        Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
+        camera->setCameraFront(direction);
     }
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-    float sensitivity = 0.1f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-    yaw += xoffset;
-    pitch += yoffset;
-    if (pitch > 89.0f)
-        pitch = 89.0f;
-    if (pitch < -89.0f)
-        pitch = -89.0f;
-   /* if (yaw > 0.f)
-        yaw = 0.f;
-    if (yaw < -179.0f)
-        yaw = -179.0f;*/
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.y = sin(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    glm::vec3 cameraFront = glm::normalize(direction);
-    Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
-    camera->setCameraFront(direction);
+    else
+    {
+        firstMouse = true;
+    }
 }
 
 void CameraCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods)
