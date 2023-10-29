@@ -91,6 +91,7 @@ bool Application::initialize()
 	glfwSetCursorPosCallback(window, CameraCallback::onMouseMoved);
 	//Binding key pressed callback
 	glfwSetKeyCallback(window, CameraCallback::onKeyPressed);
+	glfwSetFramebufferSizeCallback(window, CameraCallback::framebufferSizeCallback);
 }
 
 bool Application::createShaders()

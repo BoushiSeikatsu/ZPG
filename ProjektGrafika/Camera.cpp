@@ -48,6 +48,13 @@ bool Camera::setCameraFront(glm::vec3 cameraFrontVector)
 	return true;
 }
 
+bool Camera::setCameraPerspective(float fovy, float aspect, float near, float far)
+{
+	this->projectionMatrix = glm::perspective(glm::radians(fovy), aspect, near, far);
+	notifyPropertyChanged(CAMERA_PERSPECTIVE);
+	return true;
+}
+
 glm::mat4 Camera::getProjection()
 {
 	return this->projectionMatrix;

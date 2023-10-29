@@ -23,6 +23,7 @@ public:
 	//Apply translation on a viewMatrix using directionVector
 	bool setCameraPosition(glm::vec3 directionVector);
 	bool setCameraFront(glm::vec3 directionVector);
+	bool setCameraPerspective(float fovy, float aspect, float near, float far);
 	glm::mat4 getProjection();
 
 	// Inherited via ObserverSubject

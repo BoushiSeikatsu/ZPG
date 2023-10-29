@@ -15,5 +15,6 @@ public:
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void onMouseMoved(GLFWwindow* window, double xpos, double ypos);
 	static void onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 };
 
