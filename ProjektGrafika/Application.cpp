@@ -409,10 +409,6 @@ void Application::run()
 			}
 			case 1:
 			{
-				listOfModels.find(120)->second->drawShape();
-				float angle = glfwGetTime() * 45.0f;
-				listOfTransformations.find(106)->second->changeAngle(angle);
-				listOfModels.find(121)->second->drawShape();
 				
 				
 				break;
