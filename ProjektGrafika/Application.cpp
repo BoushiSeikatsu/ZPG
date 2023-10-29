@@ -4,6 +4,9 @@
 #include "Models/suzi_flat.h"
 #include "Models/suzi_smooth.h"
 #include "Models/tree.h"
+#include "Models/gift.h"
+#include "Models/plain.h"
+#include "Models/bushes.h"
 
 void error_callback(int, const char* err_str)
 {
@@ -214,7 +217,65 @@ bool Application::createModels()
 	scene4_4->setMaterial(material);
 	scene4_4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 8,scene4_4 });
+	
+	//Scene 5
+	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR);
+	scene5_1->setProgram(listOfShaderPrograms.find(2)->second);
+	scene5_1->setMaterial(material);
+	scene5_1->runTransformation(listOfTransformations.find(5)->second);
+	listOfModels.insert({ 9,scene5_1 });
 
+	for (int i = 10; i < 120; i++)
+	{
+		int shaderChoice = rand() % 3 + 1;//Choosing random shader at index 1-3
+		int transformationChoice = rand() % 100 + 6;
+		int objectTypeChoice = rand() % 6;
+		DrawableObject* tmp;
+		switch (objectTypeChoice)
+		{
+			case 0:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+				break;
+			}
+			case 1:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+				break;
+			}
+			case 2:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
+				break;
+			}
+			case 3:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, tree, (GLsizeiptr)sizeof(tree), 0, 92814, VERTICES | COLOR);
+				break;
+			}
+			case 4:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, gift, (GLsizeiptr)sizeof(gift), 0, 66624, VERTICES | COLOR);
+				break;
+			}
+			case 5:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, bushes, (GLsizeiptr)sizeof(bushes), 0, 8730, VERTICES | COLOR);
+				break;
+			}
+			default:
+			{
+				tmp = nullptr;
+				printf("Wrong value passed into Scene 5 creation!\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		
+		tmp->setProgram(listOfShaderPrograms.find(shaderChoice)->second);
+		tmp->setMaterial(material);
+		tmp->runTransformation(listOfTransformations.find(transformationChoice)->second);
+		listOfModels.insert({ i,tmp });
+	}
 	glGetError();
 	return true;
 }
@@ -244,11 +305,32 @@ bool Application::createTransformation()
 	compositeMoveDown->add(t4);
 	listOfTransformations.insert({ 3,compositeMoveDown });
 
-	//Scene 2
+	//Scene 3
 	Translate* scene2_1 = new Translate(glm::vec3(0.f, 0.0f, 3.f));
 	TransformationComposite* compositeScene2 = new TransformationComposite();
 	compositeScene2->add(scene2_1);
 	listOfTransformations.insert({ 4,compositeScene2 });
+
+	//Scene 5
+	Scale* scene_5Plain = new Scale(glm::vec3(30.0f, 0.0f, 30.0f));
+	Translate* scene_5Plain2 = new Translate(glm::vec3(10.0f, -1.f, 10.f));
+	TransformationComposite* compositeScene5Plain = new TransformationComposite();
+	compositeScene5Plain->add(scene_5Plain);
+	compositeScene5Plain->add(scene_5Plain2);
+	listOfTransformations.insert({ 5,compositeScene5Plain });
+	for (int i = 6; i < 105; i++)
+	{
+		int xTranslate = rand() % 30 + 1;
+		int yTranslate = rand() % 2 + 1;
+		int zTranslate = rand() % 30 + 1;
+		int randomAngle = rand() % 360;
+		Translate* tmp1 = new Translate(glm::vec3(xTranslate, yTranslate, zTranslate));
+		Rotate* tmp2 = new Rotate(randomAngle,glm::vec3(rand()%2, rand() % 2, rand() % 2));
+		TransformationComposite* tmp3 = new TransformationComposite();
+		tmp3->add(tmp1);
+		tmp3->add(tmp2);
+		listOfTransformations.insert({ i,tmp3 });
+	}
 
 	return true;
 }
@@ -281,7 +363,7 @@ void Application::run()
 {
 	//glClearColor(1.0, 0.0, 0.0, 1.0);
 	printf("Size of sphere: %d\n", sizeof(sphere));
-	SceneCallback::setSceneLimit(4);//Set number of scenes we will use
+	SceneCallback::setSceneLimit(5);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
 		// clear color and depth buffer
@@ -313,6 +395,13 @@ void Application::run()
 				listOfModels.find(7)->second->drawShape();
 				listOfModels.find(8)->second->drawShape();
 				break;
+			}
+			case 4:
+			{
+				for (int i = 9; i < 120; i++)
+				{
+					listOfModels.find(i)->second->drawShape();
+				}
 			}
 		}
 		
