@@ -132,6 +132,25 @@ bool Application::createShaders()
 	camera->addFollower(blinnShader);
 	//Adding ShaderProgram into map
 	this->listOfShaderPrograms.insert({ 3,blinnShader });
+
+	ShaderProgram* scene2WithControl = new ShaderProgram();
+	scene2WithControl->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	scene2WithControl->add("Shaders/phongScene3_1.frag", GL_FRAGMENT_SHADER, 1);
+	scene2WithControl->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(scene2WithControl);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 4,scene2WithControl });
+
+	ShaderProgram* scene2WithoutControl = new ShaderProgram();
+	scene2WithoutControl->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	scene2WithoutControl->add("Shaders/phongScene3_2.frag", GL_FRAGMENT_SHADER, 1);
+	scene2WithoutControl->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(scene2WithoutControl);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 5,scene2WithoutControl });
+
 	//Set start camera for all the shaders
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
@@ -145,7 +164,7 @@ bool Application::createShaders()
 bool Application::createModels()
 {
 	//Scene 1 
-	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16.0);
+	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
 	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
 	scene1_1->setProgram(listOfShaderPrograms.find(2)->second);
 	scene1_1->setMaterial(material);
@@ -166,17 +185,43 @@ bool Application::createModels()
 	scene1_4->setMaterial(material);
 	scene1_4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 3,scene1_4 });
+
+	//Scene 3
+	DrawableObject* scene2_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene2_1->setProgram(listOfShaderPrograms.find(4)->second);//Change shader to 5 for shader without control of angle from dot product
+	scene2_1->setMaterial(material);
+	scene2_1->runTransformation(listOfTransformations.find(4)->second);
+	listOfModels.insert({ 4,scene2_1 });
+
+	//Scene 4
+	DrawableObject* scene4_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene4_1->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_1->setMaterial(material);
+	scene4_1->runTransformation(listOfTransformations.find(0)->second);
+	listOfModels.insert({ 5,scene4_1 });
+	DrawableObject* scene4_2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+	scene4_2->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_2->setMaterial(material);
+	scene4_2->runTransformation(listOfTransformations.find(1)->second);
+	listOfModels.insert({ 6,scene4_2 });
+	DrawableObject* scene4_3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
+	scene4_3->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_3->setMaterial(material);
+	scene4_3->runTransformation(listOfTransformations.find(2)->second);
+	listOfModels.insert({ 7,scene4_3 });
+	DrawableObject* scene4_4 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene4_4->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_4->setMaterial(material);
+	scene4_4->runTransformation(listOfTransformations.find(3)->second);
+	listOfModels.insert({ 8,scene4_4 });
+
 	glGetError();
 	return true;
 }
 
 bool Application::createTransformation()
 {
-	//First scene
-	/*Translate* t1 = new Translate(glm::vec3(0.f, 0.0f, 3.f));
-	TransformationComposite* compositeMoveLeft = new TransformationComposite();
-	compositeMoveLeft->add(t1);
-	listOfTransformations.insert({ 0,compositeMoveLeft });*/
+	
 
 	//Scene 1
 	Translate* t1 = new Translate(glm::vec3(3.f, 0.0f, 0.0f));
@@ -199,6 +244,12 @@ bool Application::createTransformation()
 	compositeMoveDown->add(t4);
 	listOfTransformations.insert({ 3,compositeMoveDown });
 
+	//Scene 2
+	Translate* scene2_1 = new Translate(glm::vec3(0.f, 0.0f, 3.f));
+	TransformationComposite* compositeScene2 = new TransformationComposite();
+	compositeScene2->add(scene2_1);
+	listOfTransformations.insert({ 4,compositeScene2 });
+
 	return true;
 }
 
@@ -216,7 +267,13 @@ bool Application::createLighting()
 
 	this->listOfLights.insert({ 0,light });
 
-
+	//Scene 2
+	Lighting* light2 = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	light2->addFollower(this->listOfShaderPrograms.find(4)->second);
+	light2->addFollower(this->listOfShaderPrograms.find(5)->second);
+	light2->notifyPropertyChanged(LIGHT_POSITION);
+	light2->notifyPropertyChanged(LIGHT_COLOR);
+	this->listOfLights.insert({ 1,light2 });
 	return true;
 }
 
@@ -224,7 +281,7 @@ void Application::run()
 {
 	//glClearColor(1.0, 0.0, 0.0, 1.0);
 	printf("Size of sphere: %d\n", sizeof(sphere));
-	SceneCallback::setSceneLimit(2);//Set number of scenes we will use
+	SceneCallback::setSceneLimit(4);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
 		// clear color and depth buffer
@@ -242,6 +299,19 @@ void Application::run()
 			case 1:
 			{
 				
+				break;
+			}
+			case 2:
+			{
+				listOfModels.find(4)->second->drawShape();
+				break;
+			}
+			case 3:
+			{
+				listOfModels.find(5)->second->drawShape();
+				listOfModels.find(6)->second->drawShape();
+				listOfModels.find(7)->second->drawShape();
+				listOfModels.find(8)->second->drawShape();
 				break;
 			}
 		}

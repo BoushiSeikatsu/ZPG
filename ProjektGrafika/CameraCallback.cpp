@@ -96,6 +96,6 @@ void CameraCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int
 void CameraCallback::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
-    camera->setCameraPerspective(60.0f, width / height, 0.1f, 100.0f);
+    camera->setCameraPerspective(60.0f, width / (float)height, 0.1f, 100.0f);
     // Redraw scene
 }
