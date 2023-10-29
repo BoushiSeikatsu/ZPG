@@ -97,41 +97,41 @@ bool Application::initialize()
 
 bool Application::createShaders()
 {
-	ShaderProgram* program = new ShaderProgram();
-	program->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
-	program->add("Shaders/ambient.frag", GL_FRAGMENT_SHADER, 1);
-	program->assembleProgram();
+	ShaderProgram* ambientShader = new ShaderProgram();
+	ambientShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	ambientShader->add("Shaders/ambient.frag", GL_FRAGMENT_SHADER, 1);
+	ambientShader->assembleProgram();
 	//Adding ShaderProgram as follower
-	camera->addFollower(program);
+	camera->addFollower(ambientShader);
 	//Adding ShaderProgram into map
-	this->listOfShaderPrograms.insert({ 0,program });
+	this->listOfShaderPrograms.insert({ 0,ambientShader });
 
-	ShaderProgram* program2 = new ShaderProgram();
-	program2->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
-	program2->add("Shaders/lambert.frag", GL_FRAGMENT_SHADER, 1);
-	program2->assembleProgram();
+	ShaderProgram* lambertShader = new ShaderProgram();
+	lambertShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	lambertShader->add("Shaders/lambert.frag", GL_FRAGMENT_SHADER, 1);
+	lambertShader->assembleProgram();
 	//Adding ShaderProgram as follower
-	camera->addFollower(program2);
+	camera->addFollower(lambertShader);
 	//Adding ShaderProgram into map
-	this->listOfShaderPrograms.insert({ 1,program2 });
+	this->listOfShaderPrograms.insert({ 1,lambertShader });
 
-	ShaderProgram* program3 = new ShaderProgram();
-	program3->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER,1);
-	program3->add("Shaders/phong.frag", GL_FRAGMENT_SHADER, 1);
-	program3->assembleProgram();
+	ShaderProgram* phongShader = new ShaderProgram();
+	phongShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER,1);
+	phongShader->add("Shaders/phong.frag", GL_FRAGMENT_SHADER, 1);
+	phongShader->assembleProgram();
 	//Adding ShaderProgram as follower
-	camera->addFollower(program3);
+	camera->addFollower(phongShader);
 	//Adding ShaderProgram into map
-	this->listOfShaderPrograms.insert({ 2,program3 });
+	this->listOfShaderPrograms.insert({ 2,phongShader });
 
-	ShaderProgram* program4 = new ShaderProgram();
-	program4->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
-	program4->add("Shaders/blinn.frag", GL_FRAGMENT_SHADER, 1);
-	program4->assembleProgram();
+	ShaderProgram* blinnShader = new ShaderProgram();
+	blinnShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	blinnShader->add("Shaders/blinn.frag", GL_FRAGMENT_SHADER, 1);
+	blinnShader->assembleProgram();
 	//Adding ShaderProgram as follower
-	camera->addFollower(program4);
+	camera->addFollower(blinnShader);
 	//Adding ShaderProgram into map
-	this->listOfShaderPrograms.insert({ 3,program4 });
+	this->listOfShaderPrograms.insert({ 3,blinnShader });
 	//Set start camera for all the shaders
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
@@ -144,27 +144,28 @@ bool Application::createShaders()
 
 bool Application::createModels()
 {
+	//Scene 1 
 	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16.0);
-	DrawableObject* d1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	d1->setProgram(listOfShaderPrograms.find(2)->second);
-	d1->setMaterial(material);
-	d1->runTransformation(listOfTransformations.find(0)->second);
-	listOfModels.insert({ 0,d1 });
-	DrawableObject* d2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
-	d2->setProgram(listOfShaderPrograms.find(2)->second);
-	d2->setMaterial(material);
-	d2->runTransformation(listOfTransformations.find(1)->second);
-	listOfModels.insert({ 1,d2 });
-	DrawableObject* d3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
-	d3->setProgram(listOfShaderPrograms.find(0)->second);
-	d3->setMaterial(material);
-	d3->runTransformation(listOfTransformations.find(2)->second);
-	listOfModels.insert({ 2,d3 });
-	DrawableObject* d4 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
-	d4->setProgram(listOfShaderPrograms.find(3)->second);
-	d4->setMaterial(material);
-	d4->runTransformation(listOfTransformations.find(3)->second);
-	listOfModels.insert({ 3,d4 });
+	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene1_1->setProgram(listOfShaderPrograms.find(2)->second);
+	scene1_1->setMaterial(material);
+	scene1_1->runTransformation(listOfTransformations.find(0)->second);
+	listOfModels.insert({ 0,scene1_1 });
+	DrawableObject* scene1_2 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene1_2->setProgram(listOfShaderPrograms.find(2)->second);
+	scene1_2->setMaterial(material);
+	scene1_2->runTransformation(listOfTransformations.find(1)->second);
+	listOfModels.insert({ 1,scene1_2 });
+	DrawableObject* scene1_3 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene1_3->setProgram(listOfShaderPrograms.find(2)->second);
+	scene1_3->setMaterial(material);
+	scene1_3->runTransformation(listOfTransformations.find(2)->second);
+	listOfModels.insert({ 2,scene1_3 });
+	DrawableObject* scene1_4 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene1_4->setProgram(listOfShaderPrograms.find(2)->second);
+	scene1_4->setMaterial(material);
+	scene1_4->runTransformation(listOfTransformations.find(3)->second);
+	listOfModels.insert({ 3,scene1_4 });
 	glGetError();
 	return true;
 }
@@ -177,7 +178,7 @@ bool Application::createTransformation()
 	compositeMoveLeft->add(t1);
 	listOfTransformations.insert({ 0,compositeMoveLeft });*/
 
-	//Second scene
+	//Scene 1
 	Translate* t1 = new Translate(glm::vec3(3.f, 0.0f, 0.0f));
 	TransformationComposite* compositeMoveLeft = new TransformationComposite();
 	compositeMoveLeft->add(t1);
@@ -203,6 +204,7 @@ bool Application::createTransformation()
 
 bool Application::createLighting()
 {
+	//Scene 1
 	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
 	light->addFollower(this->listOfShaderPrograms.find(0)->second);
 	light->addFollower(this->listOfShaderPrograms.find(1)->second);
@@ -213,6 +215,8 @@ bool Application::createLighting()
 	light->notifyPropertyChanged(LIGHT_COLOR);
 
 	this->listOfLights.insert({ 0,light });
+
+
 	return true;
 }
 
@@ -231,12 +235,13 @@ void Application::run()
 			{
 				listOfModels.find(0)->second->drawShape();
 				listOfModels.find(1)->second->drawShape();
+				listOfModels.find(2)->second->drawShape();
+				listOfModels.find(3)->second->drawShape();
 				break;
 			}
 			case 1:
 			{
-				listOfModels.find(2)->second->drawShape();
-				listOfModels.find(3)->second->drawShape();
+				
 				break;
 			}
 		}
