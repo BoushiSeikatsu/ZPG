@@ -23,6 +23,7 @@ public:
 	bool use();
 	bool disable();
 	bool linkTransformation(const char* matrixName, glm::mat4 matrix);
+	bool setObjectColor(glm::vec3 objectColor);
 	bool assembleProgram();
 	// Inherited via Observer
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) override;

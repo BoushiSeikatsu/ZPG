@@ -14,6 +14,7 @@
 		uniform vec3 cameraPosition;
 		uniform vec3 lightPosition;
 		uniform vec3 lightColor;
+		uniform vec3 objectColor;
 		void main()
         {
             vec3 ambient = material.ambient * vec3(0.1, 0.1, 0.1);
@@ -21,7 +22,6 @@
             vec3 lightDir = normalize(lightPosition - worldPosition.xyz/worldPosition.w);
             float diff = max(dot(lightDir, norm), 0.0);
             vec3 diffuse =  lightColor * material.diffuse * diff;
-            vec3 objectColor = vec3 (0.385 ,0.647 ,0.812);
             float distance = length(lightPosition - worldPosition.xyz/worldPosition.w);
 			float attenuation = 1.0 / (1.0 + 0.045 * distance + 0.0075 * (distance * distance));//constant, linear, quadratic costants in this order, for now for 100 distance
             vec3 result = (ambient + diffuse) * objectColor * attenuation;

@@ -15,6 +15,7 @@
 		uniform vec3 cameraPosition;
 		uniform vec3 lightPosition;
 		uniform vec3 lightColor;
+		uniform vec3 objectColor;
 		void main()
 		{
 			//Ambient part
@@ -38,7 +39,6 @@
 			float distance = length(lightPosition - worldPosition.xyz/worldPosition.w);
 			float attenuation = 1.0 / (1.0 + 0.045 * distance + 0.0075 * (distance * distance));//constant, linear, quadratic costants in this order, for now for 100 distance
 
-			vec3 objectColor = vec3 (0.385 ,0.647 ,0.812);
 			vec3 result = (ambient + diffuse + specular) * objectColor * attenuation;
 			fragColor = vec4(result,1.0);
 		}

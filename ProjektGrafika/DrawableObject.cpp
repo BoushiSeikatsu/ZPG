@@ -2,7 +2,7 @@
 #include "ComplexShape.h"
 
 
-DrawableObject::DrawableObject(OPTION o, const float* points, GLsizeiptr size, int startingPosition, int count, int Flags)
+DrawableObject::DrawableObject(OPTION o, const float* points, GLsizeiptr size, int startingPosition, int count, int Flags, glm::vec3 objectColor)
 {
 	matrix = glm::mat4(1.0f);
 	createVertexObjects(points, size);
@@ -28,6 +28,7 @@ DrawableObject::DrawableObject(OPTION o, const float* points, GLsizeiptr size, i
 	default:
 		break;
 	}
+	this->objectColor = objectColor;
 }
 DrawableObject::~DrawableObject()
 {
@@ -44,6 +45,7 @@ bool DrawableObject::drawShape()
 	useVAO();
 	program->linkTransformation("modelMatrix", this->matrix);
 	shape->createShape();
+	program->setObjectColor(this->objectColor);//For now its every frame, later move it to somewhere else
 	program->disable();
 	return true;
 }

@@ -150,3 +150,10 @@ bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)
 	glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, &matrix[0][0]);
 	return true;
 }
+
+bool ShaderProgram::setObjectColor(glm::vec3 objectColor)
+{
+	GLint objectColorLocation = glGetUniformLocation(*this->shaderProgram, "objectColor");
+	glUniform3fv(objectColorLocation, 1, &objectColor[0]);
+	return true;
+}

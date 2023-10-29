@@ -26,6 +26,7 @@ private:
 	glm::mat4 matrix;
 	ShaderProgram* program;
 	Material* material;
+	glm::vec3 objectColor;
 	/// <summary>
 	/// Inicializuje VBO a VAO
 	/// </summary>
@@ -34,7 +35,7 @@ private:
 	/// <returns></returns>
 	bool createVertexObjects(const float* points, GLsizeiptr size);
 public:
-	DrawableObject(OPTION o, const float* points, GLsizeiptr size, int startingPosition, int count, int Flags);
+	DrawableObject(OPTION o, const float* points, GLsizeiptr size, int startingPosition, int count, int Flags, glm::vec3 objectColor = glm::vec3(0.385, 0.647, 0.812));
 	~DrawableObject();
 	bool drawShape();
 	bool useVAO();

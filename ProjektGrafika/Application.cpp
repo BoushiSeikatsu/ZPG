@@ -276,6 +276,19 @@ bool Application::createModels()
 		tmp->runTransformation(listOfTransformations.find(transformationChoice)->second);
 		listOfModels.insert({ i,tmp });
 	}
+	//Scene 2
+	DrawableObject* sun = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR,glm::vec3(1,0.98,0));
+	sun->setProgram(listOfShaderPrograms.find(2)->second);
+	sun->setMaterial(material);
+	sun->runTransformation(listOfTransformations.find(105)->second);
+	listOfModels.insert({ 120,sun });
+
+	DrawableObject* earth = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR, glm::vec3(0, 1, 0.1));
+	earth->setProgram(listOfShaderPrograms.find(2)->second);
+	earth->setMaterial(material);
+	earth->runTransformation(listOfTransformations.find(106)->second);
+	listOfModels.insert({ 121,earth });
+
 	glGetError();
 	return true;
 }
@@ -332,6 +345,22 @@ bool Application::createTransformation()
 		listOfTransformations.insert({ i,tmp3 });
 	}
 
+	//Scene 2
+	//Translate* sunMove = new Translate(glm::vec3(0.0f, 0.0f, 1.0f));
+	Scale* sunSize = new Scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	TransformationComposite* compositeSun = new TransformationComposite();
+	//compositeSun->add(sunMove);
+	compositeSun->add(sunSize);
+	listOfTransformations.insert({ 105,compositeSun });
+
+
+	Translate* earthMoveBack = new Translate(glm::vec3(-3.0f, 0.0f, 0.0f));
+	Translate* earthMove = new Translate(glm::vec3(3.0f, 0.0f,0.0f));
+	Rotate* rotateEarth = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
+	TransformationComposite* compositeEarth = new TransformationComposite();
+	compositeEarth->add(rotateEarth);
+	compositeEarth->add(earthMove);
+	listOfTransformations.insert({ 106,compositeEarth });
 	return true;
 }
 
@@ -366,7 +395,7 @@ void Application::run()
 	SceneCallback::setSceneLimit(5);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
-		// clear color and depth buffer
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		switch (SceneCallback::getSceneIndex())
 		{
@@ -380,6 +409,11 @@ void Application::run()
 			}
 			case 1:
 			{
+				listOfModels.find(120)->second->drawShape();
+				float angle = glfwGetTime() * 45.0f;
+				listOfTransformations.find(106)->second->changeAngle(angle);
+				listOfModels.find(121)->second->drawShape();
+				
 				
 				break;
 			}
