@@ -12,5 +12,8 @@ public:
 	void add(Transformation* t);
 	// Inherited via Transformation
 	virtual void transform(glm::mat4* M) override;
+
+	// Inherited via Transformation, do for all Transformations
+	virtual void changeAngle(float newAngle) override;
 };
 

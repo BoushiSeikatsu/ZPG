@@ -9,3 +9,7 @@ void Translate::transform(glm::mat4* M)
 {
     *M = glm::translate(*M, translationVector);
 }
+
+void Translate::changeAngle(float newAngle)
+{
+}

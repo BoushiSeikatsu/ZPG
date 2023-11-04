@@ -8,5 +8,8 @@ public:
 	Scale(glm::vec3 scalingVector);
 	// Inherited via Transformation
 	virtual void transform(glm::mat4* M) override;
+
+	// Inherited via Transformation, do nothing
+	virtual void changeAngle(float newAngle) override;
 };
 

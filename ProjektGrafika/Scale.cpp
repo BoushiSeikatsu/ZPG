@@ -9,3 +9,8 @@ void Scale::transform(glm::mat4* M)
 {
     *M = glm::scale(*M, scalingVector);
 }
+
+void Scale::changeAngle(float newAngle)
+{
+
+}

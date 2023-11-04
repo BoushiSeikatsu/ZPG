@@ -289,6 +289,12 @@ bool Application::createModels()
 	earth->runTransformation(listOfTransformations.find(106)->second);
 	listOfModels.insert({ 121,earth });
 
+	DrawableObject* moon = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR, glm::vec3(0.729, 0.729, 0.682));
+	moon->setProgram(listOfShaderPrograms.find(2)->second);
+	moon->setMaterial(material);
+	moon->runTransformation(listOfTransformations.find(107)->second);
+	listOfModels.insert({ 122, moon});
+
 	glGetError();
 	return true;
 }
@@ -353,14 +359,23 @@ bool Application::createTransformation()
 	compositeSun->add(sunSize);
 	listOfTransformations.insert({ 105,compositeSun });
 
-
-	Translate* earthMoveBack = new Translate(glm::vec3(-3.0f, 0.0f, 0.0f));
-	Translate* earthMove = new Translate(glm::vec3(3.0f, 0.0f,0.0f));
+	Translate* earthMove = new Translate(glm::vec3(15.0f, 0.0f,0.0f));
 	Rotate* rotateEarth = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
 	TransformationComposite* compositeEarth = new TransformationComposite();
 	compositeEarth->add(rotateEarth);
 	compositeEarth->add(earthMove);
 	listOfTransformations.insert({ 106,compositeEarth });
+
+	Scale* moonSize = new Scale(glm::vec3(0.5f, 0.5f, 0.5f));
+	Rotate* moonRotate = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
+	Translate* moonMove = new Translate(glm::vec3(3.0f, 0.0f, 0.0f));
+	TransformationComposite* compositeMoon = new TransformationComposite();
+	
+	compositeMoon->add(compositeEarth);
+	compositeMoon->add(moonSize);
+	compositeMoon->add(moonRotate);
+	compositeMoon->add(moonMove);
+	listOfTransformations.insert({ 107, compositeMoon });
 	return true;
 }
 
@@ -409,8 +424,13 @@ void Application::run()
 			}
 			case 1:
 			{
-				
-				
+				listOfModels.find(120)->second->drawShape();
+				listOfModels.find(121)->second->drawShape();
+				listOfModels.find(122)->second->drawShape();
+				listOfTransformations.find(106)->second->changeAngle(0.005);
+				listOfModels.find(121)->second->runTransformation(listOfTransformations.find(106)->second);
+				listOfTransformations.find(107)->second->changeAngle(0.001);
+				listOfModels.find(122)->second->runTransformation(listOfTransformations.find(107)->second);
 				break;
 			}
 			case 2:

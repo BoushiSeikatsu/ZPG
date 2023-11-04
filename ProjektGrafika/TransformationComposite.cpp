@@ -22,3 +22,11 @@ void TransformationComposite::transform(glm::mat4* M)
         transformation->transform(M);
     }
 }
+
+void TransformationComposite::changeAngle(float newAngle)
+{
+    for(Transformation* t : transformations)
+    {
+        t->changeAngle(newAngle);
+    }
+}

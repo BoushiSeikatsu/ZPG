@@ -10,3 +10,8 @@ void Rotate::transform(glm::mat4* M)
 {
     *M = glm::rotate(*M, angle, rotationAxis);
 }
+
+void Rotate::changeAngle(float newAngle)
+{
+    this->angle += newAngle;
+}

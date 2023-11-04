@@ -73,6 +73,7 @@ bool DrawableObject::useVAO()
 }
 void DrawableObject::runTransformation(Transformation* t)
 {
+	matrix = glm::mat4(1.0f);
 	t->transform(&this->matrix);
 }
 void DrawableObject::setProgram(ShaderProgram* p)

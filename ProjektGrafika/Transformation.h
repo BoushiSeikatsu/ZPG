@@ -25,5 +25,6 @@ public:
 	void translate(glm::vec3 translationVector);
 	void scale(glm::vec3 scalingVector);*/
 	virtual void transform(glm::mat4* M) = 0;
+	virtual void changeAngle(float newAngle) = 0;
 };
 
