@@ -44,8 +44,8 @@ bool DrawableObject::drawShape()
 	program->use();
 	useVAO();
 	program->linkTransformation("modelMatrix", this->matrix);
-	shape->createShape();
 	program->setObjectColor(this->objectColor);//For now its every frame, later move it to somewhere else
+	shape->createShape();
 	program->disable();
 	return true;
 }
