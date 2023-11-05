@@ -413,12 +413,21 @@ bool Application::createLighting()
 	this->listOfLights.insert({ 2,light });
 
 	Lighting* light4 = new Lighting(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.001f, 0.0f, -1.0f), glm::cos(glm::radians(60.0f)));
-	light4->addFollower(this->listOfShaderPrograms.find(2)->second);
+	//light4->addFollower(this->listOfShaderPrograms.find(2)->second);
 	light4->notifyPropertyChanged(LIGHT_POSITION);
 	light4->notifyPropertyChanged(LIGHT_COLOR);
 	light4->notifyPropertyChanged(LIGHT_DIRECTION);
 	light4->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 3,light4 });
+
+	Lighting* light5 = new Lighting(glm::vec3(10.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), true);
+	light5->addFollower(this->listOfShaderPrograms.find(2)->second);
+	//Initialize light to starting values
+	light5->notifyPropertyChanged(LIGHT_POSITION);
+	light5->notifyPropertyChanged(LIGHT_COLOR);
+	light5->notifyPropertyChanged(LIGHT_DIRECTION);
+	light5->notifyPropertyChanged(LIGHT_CUTOFF);
+	this->listOfLights.insert({ 4,light5 });
 	return true;
 }
 

@@ -21,6 +21,11 @@ struct Material {
 	float shininess;
 };
 
+struct Flashlight
+{
+	Light light;
+}
+
 uniform Material material;
 uniform Light lights[MAX_LIGHTS];
 uniform int lightCount;
@@ -31,7 +36,7 @@ uniform vec3 objectColor;
 
 vec3 pointLight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor);
 vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff);
-vec3 directional_light(vec3 color, vec3 worldPos, vec3 normalVector, vec3 lightDirection, vec3 lightColor);
+vec3 directional_light(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightDirection, vec3 lightColor);
 
 void main()
 {
@@ -47,8 +52,12 @@ void main()
 		else if(lights[i].direction == vec3(-1,-1,-1))
 		{
 			result += (pointLight(material, worldPosition, normalVector, lights[i].position, lights[i].lightColor)) * objectColor;
+			
 		}
-		
+		else
+		{
+			result += (directional_light(material, worldPosition, normalVector, lights[i].direction, lights[i].lightColor)) * objectColor;
+		}
 	}
 	
 	fragColor = vec4(ambient + result,1.0);
@@ -106,7 +115,21 @@ vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 li
 	return (diffuse + specular) * attenuation;
 }
 
-vec3 directional_light(vec3 color, vec3 worldPos, vec3 normalVector, vec3 lightDirection, vec3 lightColor)
+vec3 directional_light(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightDirection, vec3 lightColor)
 {
-	return vec3(1.0,1.0,1.0);
+	vec3 norm = normalize(normalVector);
+	vec3 lightDir = normalize(-lightDirection);
+	float diff = max(dot(lightDir, norm), 0.0);
+	vec3 diffuse =  lightColor * material.diffuse * diff;
+
+	vec3 viewDir = normalize(cameraPosition - worldPosition.xyz/worldPosition.w);
+	vec3 reflectDir = reflect(-lightDir, norm);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
+	float specularStrength = 0.5;
+	vec3 specular = lightColor * material.specular * specularStrength * spec;
+	if (diff <= 0.0)
+	{
+		specular = vec3(0.0);
+	}
+	return (diffuse + specular);
 }
