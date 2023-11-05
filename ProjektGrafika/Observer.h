@@ -11,15 +11,19 @@ enum OBSERVABLE_OBJECTS
 	MATERIAL_AMBIENT = 32,
 	MATERIAL_DIFFUSE = 64,
 	MATERIAL_SPECULAR = 128,
-	MATERIAL_SHININESS = 256
+	MATERIAL_SHININESS = 256,
+	CAMERA = 512,
+	LIGHT = 1024
 };
 
 class Observer
 {
 private:
 public:
+	virtual int confirmSubjectAdded(OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 };
 

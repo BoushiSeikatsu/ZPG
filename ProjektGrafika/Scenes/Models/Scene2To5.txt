@@ -1,0 +1,105 @@
+//Scene 3
+	DrawableObject* scene2_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene2_1->setProgram(listOfShaderPrograms.find(4)->second);//Change shader to 5 for shader without control of angle from dot product
+	scene2_1->setMaterial(material);
+	scene2_1->runTransformation(listOfTransformations.find(4)->second);
+	listOfModels.insert({ 4,scene2_1 });
+
+	//Scene 4
+	DrawableObject* scene4_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene4_1->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_1->setMaterial(material);
+	scene4_1->runTransformation(listOfTransformations.find(0)->second);
+	listOfModels.insert({ 5,scene4_1 });
+	DrawableObject* scene4_2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+	scene4_2->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_2->setMaterial(material);
+	scene4_2->runTransformation(listOfTransformations.find(1)->second);
+	listOfModels.insert({ 6,scene4_2 });
+	DrawableObject* scene4_3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
+	scene4_3->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_3->setMaterial(material);
+	scene4_3->runTransformation(listOfTransformations.find(2)->second);
+	listOfModels.insert({ 7,scene4_3 });
+	DrawableObject* scene4_4 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+	scene4_4->setProgram(listOfShaderPrograms.find(2)->second);
+	scene4_4->setMaterial(material);
+	scene4_4->runTransformation(listOfTransformations.find(3)->second);
+	listOfModels.insert({ 8,scene4_4 });
+	
+	//Scene 5
+	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR);
+	scene5_1->setProgram(listOfShaderPrograms.find(2)->second);
+	scene5_1->setMaterial(material);
+	scene5_1->runTransformation(listOfTransformations.find(5)->second);
+	listOfModels.insert({ 9,scene5_1 });
+
+	for (int i = 10; i < 120; i++)
+	{
+		int shaderChoice = rand() % 3 + 1;//Choosing random shader at index 1-3
+		int transformationChoice = rand() % 100 + 6;
+		int objectTypeChoice = rand() % 6;
+		DrawableObject* tmp;
+		switch (objectTypeChoice)
+		{
+			case 0:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+				break;
+			}
+			case 1:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+				break;
+			}
+			case 2:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
+				break;
+			}
+			case 3:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, tree, (GLsizeiptr)sizeof(tree), 0, 92814, VERTICES | COLOR);
+				break;
+			}
+			case 4:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, gift, (GLsizeiptr)sizeof(gift), 0, 66624, VERTICES | COLOR);
+				break;
+			}
+			case 5:
+			{
+				tmp = new DrawableObject(MAKE_COMPLEX, bushes, (GLsizeiptr)sizeof(bushes), 0, 8730, VERTICES | COLOR);
+				break;
+			}
+			default:
+			{
+				tmp = nullptr;
+				printf("Wrong value passed into Scene 5 creation!\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		
+		tmp->setProgram(listOfShaderPrograms.find(shaderChoice)->second);
+		tmp->setMaterial(material);
+		tmp->runTransformation(listOfTransformations.find(transformationChoice)->second);
+		listOfModels.insert({ i,tmp });
+	}
+	//Scene 2
+	DrawableObject* sun = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR,glm::vec3(1,0.98,0));
+	sun->setProgram(listOfShaderPrograms.find(2)->second);
+	sun->setMaterial(material);
+	sun->runTransformation(listOfTransformations.find(105)->second);
+	listOfModels.insert({ 120,sun });
+
+	DrawableObject* earth = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR, glm::vec3(0, 1, 0.1));
+	earth->setProgram(listOfShaderPrograms.find(2)->second);
+	earth->setMaterial(material);
+	earth->runTransformation(listOfTransformations.find(106)->second);
+	listOfModels.insert({ 121,earth });
+
+	DrawableObject* moon = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR, glm::vec3(0.729, 0.729, 0.682));
+	moon->setProgram(listOfShaderPrograms.find(2)->second);
+	moon->setMaterial(material);
+	moon->runTransformation(listOfTransformations.find(107)->second);
+	listOfModels.insert({ 122, moon});

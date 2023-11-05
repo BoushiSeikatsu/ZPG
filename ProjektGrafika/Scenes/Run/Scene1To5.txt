@@ -1,0 +1,39 @@
+case 0:
+			{
+				listOfModels.find(0)->second->drawShape();
+				listOfModels.find(1)->second->drawShape();
+				listOfModels.find(2)->second->drawShape();
+				listOfModels.find(3)->second->drawShape();
+				break;
+			}
+			case 1:
+			{
+				listOfModels.find(120)->second->drawShape();
+				listOfModels.find(121)->second->drawShape();
+				listOfModels.find(122)->second->drawShape();
+				listOfTransformations.find(106)->second->changeAngle(0.005);
+				listOfModels.find(121)->second->runTransformation(listOfTransformations.find(106)->second);
+				listOfTransformations.find(107)->second->changeAngle(0.001);
+				listOfModels.find(122)->second->runTransformation(listOfTransformations.find(107)->second);
+				break;
+			}
+			case 2:
+			{
+				listOfModels.find(4)->second->drawShape();
+				break;
+			}
+			case 3:
+			{
+				listOfModels.find(5)->second->drawShape();
+				listOfModels.find(6)->second->drawShape();
+				listOfModels.find(7)->second->drawShape();
+				listOfModels.find(8)->second->drawShape();
+				break;
+			}
+			case 4:
+			{
+				for (int i = 9; i < 120; i++)
+				{
+					listOfModels.find(i)->second->drawShape();
+				}
+			}

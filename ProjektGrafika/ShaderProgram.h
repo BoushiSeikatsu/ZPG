@@ -16,6 +16,8 @@ class ShaderProgram : public Observer
 private:
 	vector<GLuint*> listBasicShaders;
 	GLuint* shaderProgram;//shader_id
+	int nextLightID = 0;
+	int nextCameraID = 0;
 public:
 	~ShaderProgram();
 	bool add(long shaderType, int numberOfElements,const char* parameters);
@@ -25,6 +27,7 @@ public:
 	bool linkTransformation(const char* matrixName, glm::mat4 matrix);
 	bool setObjectColor(glm::vec3 objectColor);
 	bool assembleProgram();
+	int confirmSubjectAdded(OBSERVABLE_OBJECTS type) override;//Gives ID to subject thats being observed by observer
 	// Inherited via Observer
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) override;
 
@@ -33,5 +36,8 @@ public:
 
 	// Inherited via Observer
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) override;
+
+	// Inherited via Observer
+	virtual void update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type) override;
 };
 

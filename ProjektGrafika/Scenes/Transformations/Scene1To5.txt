@@ -1,0 +1,73 @@
+//Scene 1
+	Translate* t1 = new Translate(glm::vec3(3.f, 0.0f, 0.0f));
+	TransformationComposite* compositeMoveLeft = new TransformationComposite();
+	compositeMoveLeft->add(t1);
+	listOfTransformations.insert({ 0,compositeMoveLeft });
+
+	Translate* t2 = new Translate(glm::vec3(-3.f, 0.0f, 0.0f));
+	TransformationComposite* compositeMoveRight = new TransformationComposite();
+	compositeMoveRight->add(t2);
+	listOfTransformations.insert({ 1,compositeMoveRight });
+
+	Translate* t3 = new Translate(glm::vec3(0.0f, 3.f, 0.0f));
+	TransformationComposite* compositeMoveUp = new TransformationComposite();
+	compositeMoveUp->add(t3);
+	listOfTransformations.insert({ 2,compositeMoveUp });
+
+	Translate* t4 = new Translate(glm::vec3(0.0f, -3.f, 0.f));
+	TransformationComposite* compositeMoveDown = new TransformationComposite();
+	compositeMoveDown->add(t4);
+	listOfTransformations.insert({ 3,compositeMoveDown });
+
+	//Scene 3
+	Translate* scene2_1 = new Translate(glm::vec3(0.f, 0.0f, 3.f));
+	TransformationComposite* compositeScene2 = new TransformationComposite();
+	compositeScene2->add(scene2_1);
+	listOfTransformations.insert({ 4,compositeScene2 });
+
+	//Scene 5
+	Scale* scene_5Plain = new Scale(glm::vec3(30.0f, 0.0f, 30.0f));
+	Translate* scene_5Plain2 = new Translate(glm::vec3(10.0f, -1.f, 10.f));
+	TransformationComposite* compositeScene5Plain = new TransformationComposite();
+	compositeScene5Plain->add(scene_5Plain);
+	compositeScene5Plain->add(scene_5Plain2);
+	listOfTransformations.insert({ 5,compositeScene5Plain });
+	for (int i = 6; i < 105; i++)
+	{
+		int xTranslate = rand() % 30 + 1;
+		int yTranslate = rand() % 2 + 1;
+		int zTranslate = rand() % 30 + 1;
+		int randomAngle = rand() % 360;
+		Translate* tmp1 = new Translate(glm::vec3(xTranslate, yTranslate, zTranslate));
+		Rotate* tmp2 = new Rotate(randomAngle,glm::vec3(rand()%2, rand() % 2, rand() % 2));
+		TransformationComposite* tmp3 = new TransformationComposite();
+		tmp3->add(tmp1);
+		tmp3->add(tmp2);
+		listOfTransformations.insert({ i,tmp3 });
+	}
+
+	//Scene 2
+	//Translate* sunMove = new Translate(glm::vec3(0.0f, 0.0f, 1.0f));
+	Scale* sunSize = new Scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	TransformationComposite* compositeSun = new TransformationComposite();
+	//compositeSun->add(sunMove);
+	compositeSun->add(sunSize);
+	listOfTransformations.insert({ 105,compositeSun });
+
+	Translate* earthMove = new Translate(glm::vec3(15.0f, 0.0f,0.0f));
+	Rotate* rotateEarth = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
+	TransformationComposite* compositeEarth = new TransformationComposite();
+	compositeEarth->add(rotateEarth);
+	compositeEarth->add(earthMove);
+	listOfTransformations.insert({ 106,compositeEarth });
+
+	Scale* moonSize = new Scale(glm::vec3(0.5f, 0.5f, 0.5f));
+	Rotate* moonRotate = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
+	Translate* moonMove = new Translate(glm::vec3(3.0f, 0.0f, 0.0f));
+	TransformationComposite* compositeMoon = new TransformationComposite();
+	
+	compositeMoon->add(compositeEarth);
+	compositeMoon->add(moonSize);
+	compositeMoon->add(moonRotate);
+	compositeMoon->add(moonMove);
+	listOfTransformations.insert({ 107, compositeMoon });

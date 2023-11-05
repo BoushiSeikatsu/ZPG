@@ -400,6 +400,12 @@ bool Application::createLighting()
 	light2->notifyPropertyChanged(LIGHT_POSITION);
 	light2->notifyPropertyChanged(LIGHT_COLOR);
 	this->listOfLights.insert({ 1,light2 });
+
+	Lighting* light3 = new Lighting(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	light3->addFollower(this->listOfShaderPrograms.find(2)->second);
+	light3->notifyPropertyChanged(LIGHT_POSITION);
+	light3->notifyPropertyChanged(LIGHT_COLOR);
+	this->listOfLights.insert({ 2,light });
 	return true;
 }
 

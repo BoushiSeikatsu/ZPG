@@ -1,0 +1,19 @@
+//Scene 1
+	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	light->addFollower(this->listOfShaderPrograms.find(0)->second);
+	light->addFollower(this->listOfShaderPrograms.find(1)->second);
+	light->addFollower(this->listOfShaderPrograms.find(2)->second);
+	light->addFollower(this->listOfShaderPrograms.find(3)->second);
+	//Initialize light to starting values
+	light->notifyPropertyChanged(LIGHT_POSITION);
+	light->notifyPropertyChanged(LIGHT_COLOR);
+
+	this->listOfLights.insert({ 0,light });
+
+	//Scene 2
+	/*Lighting* light2 = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	light2->addFollower(this->listOfShaderPrograms.find(4)->second);
+	light2->addFollower(this->listOfShaderPrograms.find(5)->second);
+	light2->notifyPropertyChanged(LIGHT_POSITION);
+	light2->notifyPropertyChanged(LIGHT_COLOR);
+	this->listOfLights.insert({ 1,light2 });*/

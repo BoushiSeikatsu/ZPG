@@ -1,0 +1,58 @@
+ShaderProgram* ambientShader = new ShaderProgram();
+	ambientShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	ambientShader->add("Shaders/ambient.frag", GL_FRAGMENT_SHADER, 1);
+	ambientShader->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(ambientShader);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 0,ambientShader });
+
+	ShaderProgram* lambertShader = new ShaderProgram();
+	lambertShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	lambertShader->add("Shaders/lambert.frag", GL_FRAGMENT_SHADER, 1);
+	lambertShader->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(lambertShader);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 1,lambertShader });
+
+	ShaderProgram* phongShader = new ShaderProgram();
+	phongShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER,1);
+	phongShader->add("Shaders/phong.frag", GL_FRAGMENT_SHADER, 1);
+	phongShader->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(phongShader);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 2,phongShader });
+
+	ShaderProgram* blinnShader = new ShaderProgram();
+	blinnShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	blinnShader->add("Shaders/blinn.frag", GL_FRAGMENT_SHADER, 1);
+	blinnShader->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(blinnShader);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 3,blinnShader });
+
+	ShaderProgram* scene2WithControl = new ShaderProgram();
+	scene2WithControl->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	scene2WithControl->add("Shaders/phongScene3_1.frag", GL_FRAGMENT_SHADER, 1);
+	scene2WithControl->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(scene2WithControl);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 4,scene2WithControl });
+
+	ShaderProgram* scene2WithoutControl = new ShaderProgram();
+	scene2WithoutControl->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
+	scene2WithoutControl->add("Shaders/phongScene3_2.frag", GL_FRAGMENT_SHADER, 1);
+	scene2WithoutControl->assembleProgram();
+	//Adding ShaderProgram as follower
+	camera->addFollower(scene2WithoutControl);
+	//Adding ShaderProgram into map
+	this->listOfShaderPrograms.insert({ 5,scene2WithoutControl });
+
+	//Set start camera for all the shaders
+	camera->notifyPropertyChanged(CAMERA_VIEW);
+	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
+	camera->notifyPropertyChanged(CAMERA_POSITION);

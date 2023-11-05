@@ -51,6 +51,25 @@ bool ShaderProgram::assembleProgram()
 	return true;
 }
 
+int ShaderProgram::confirmSubjectAdded(OBSERVABLE_OBJECTS type)
+{
+	this->use();
+	GLint lightCountLocation = glGetUniformLocation(*this->shaderProgram, "lightCount");
+	glUniform1i(lightCountLocation, this->nextLightID + 1);
+	disable();
+	switch (type)
+	{
+		case CAMERA: return this->nextCameraID++; break;//Assigns ID to camera, camera version is prepared but not implemented yet
+		case LIGHT: return this->nextLightID++; break;//Assigns ID to light 
+		default:
+			{
+			printf("Wrong observable object type sent into confirmSubjectAdded!\n");
+			}
+	}
+	//Updates the number of lights in shader
+	
+}
+
 void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type)
 {
 	use();
@@ -129,6 +148,7 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 
 void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 {
+	this->use();
 	switch (type)
 	{
 		case MATERIAL_SHININESS:
@@ -142,6 +162,30 @@ void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 			printf("Wrong type of observable object passed into shader - float part!\n");
 		}
 	}
+	this->disable();
+}
+
+void ShaderProgram::update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type)
+{
+	use();
+	switch (type)
+	{
+		case LIGHT_POSITION:
+		{
+			string location = string("lights[") + to_string(lightID) + "].position";
+			GLint lpVectorLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
+			glUniform3fv(lpVectorLocation, 1, &newVector[0]);
+			break;
+		}
+		case LIGHT_COLOR:
+		{
+			string location = string("lights[") + to_string(lightID) + "].lightColor";
+			GLint lcVectorLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
+			glUniform3fv(lcVectorLocation, 1, &newVector[0]);
+			break;
+		}
+	}
+	disable();
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)
