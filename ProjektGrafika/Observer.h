@@ -13,7 +13,9 @@ enum OBSERVABLE_OBJECTS
 	MATERIAL_SPECULAR = 128,
 	MATERIAL_SHININESS = 256,
 	CAMERA = 512,
-	LIGHT = 1024
+	LIGHT = 1024,
+	LIGHT_CUTOFF = 2048,
+	LIGHT_DIRECTION = 4096
 };
 
 class Observer
@@ -24,6 +26,7 @@ public:
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) = 0;
-	virtual void update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(int elementIndex, float newValue, OBSERVABLE_OBJECTS type) = 0;
 };
 

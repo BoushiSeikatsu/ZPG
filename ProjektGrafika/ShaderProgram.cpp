@@ -56,6 +56,7 @@ int ShaderProgram::confirmSubjectAdded(OBSERVABLE_OBJECTS type)
 	this->use();
 	GLint lightCountLocation = glGetUniformLocation(*this->shaderProgram, "lightCount");
 	glUniform1i(lightCountLocation, this->nextLightID + 1);
+
 	disable();
 	switch (type)
 	{
@@ -165,27 +166,54 @@ void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 	this->disable();
 }
 
-void ShaderProgram::update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type)
+void ShaderProgram::update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 {
 	use();
 	switch (type)
 	{
 		case LIGHT_POSITION:
 		{
-			string location = string("lights[") + to_string(lightID) + "].position";
+			string location = string("lights[") + to_string(elementIndex) + "].position";
 			GLint lpVectorLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
 			glUniform3fv(lpVectorLocation, 1, &newVector[0]);
 			break;
 		}
 		case LIGHT_COLOR:
 		{
-			string location = string("lights[") + to_string(lightID) + "].lightColor";
+			string location = string("lights[") + to_string(elementIndex) + "].lightColor";
 			GLint lcVectorLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
 			glUniform3fv(lcVectorLocation, 1, &newVector[0]);
 			break;
 		}
+		case LIGHT_DIRECTION:
+		{
+			string location = string("lights[") + to_string(elementIndex) + "].direction";
+			GLint ldVectorLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
+			glUniform3fv(ldVectorLocation, 1, &newVector[0]);
+			break;
+		}
 	}
 	disable();
+}
+
+void ShaderProgram::update(int elementIndex, float newValue, OBSERVABLE_OBJECTS type)
+{
+	this->use();
+	switch (type)
+	{
+		case LIGHT_CUTOFF:
+		{
+			string location = string("lights[") + to_string(elementIndex) + "].cutoff";
+			GLint lcFloatLocation = glGetUniformLocation(*this->shaderProgram, location.c_str());
+			glUniform1f(lcFloatLocation, newValue);
+			break;
+		}
+		default:
+		{
+			printf("Wrong type of observable object in update for float array values!\n");
+		}
+	}
+	this->disable();
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)

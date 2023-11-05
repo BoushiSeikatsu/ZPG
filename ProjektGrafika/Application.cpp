@@ -382,30 +382,43 @@ bool Application::createTransformation()
 bool Application::createLighting()
 {
 	//Scene 1
-	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
 	light->addFollower(this->listOfShaderPrograms.find(0)->second);
 	light->addFollower(this->listOfShaderPrograms.find(1)->second);
-	light->addFollower(this->listOfShaderPrograms.find(2)->second);
+	//light->addFollower(this->listOfShaderPrograms.find(2)->second);
 	light->addFollower(this->listOfShaderPrograms.find(3)->second);
 	//Initialize light to starting values
 	light->notifyPropertyChanged(LIGHT_POSITION);
 	light->notifyPropertyChanged(LIGHT_COLOR);
-
+	light->notifyPropertyChanged(LIGHT_DIRECTION);
+	light->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 0,light });
 
 	//Scene 2
-	Lighting* light2 = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
+	Lighting* light2 = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
 	light2->addFollower(this->listOfShaderPrograms.find(4)->second);
 	light2->addFollower(this->listOfShaderPrograms.find(5)->second);
 	light2->notifyPropertyChanged(LIGHT_POSITION);
 	light2->notifyPropertyChanged(LIGHT_COLOR);
+	light2->notifyPropertyChanged(LIGHT_DIRECTION);
+	light2->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 1,light2 });
 
-	Lighting* light3 = new Lighting(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5));
-	light3->addFollower(this->listOfShaderPrograms.find(2)->second);
+	Lighting* light3 = new Lighting(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
+	//light3->addFollower(this->listOfShaderPrograms.find(2)->second);
 	light3->notifyPropertyChanged(LIGHT_POSITION);
 	light3->notifyPropertyChanged(LIGHT_COLOR);
+	light3->notifyPropertyChanged(LIGHT_DIRECTION);
+	light3->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 2,light });
+
+	Lighting* light4 = new Lighting(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.001f, 0.0f, -1.0f), glm::cos(glm::radians(60.0f)));
+	light4->addFollower(this->listOfShaderPrograms.find(2)->second);
+	light4->notifyPropertyChanged(LIGHT_POSITION);
+	light4->notifyPropertyChanged(LIGHT_COLOR);
+	light4->notifyPropertyChanged(LIGHT_DIRECTION);
+	light4->notifyPropertyChanged(LIGHT_CUTOFF);
+	this->listOfLights.insert({ 3,light4 });
 	return true;
 }
 

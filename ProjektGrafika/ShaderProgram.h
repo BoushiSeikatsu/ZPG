@@ -38,6 +38,9 @@ public:
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) override;
 
 	// Inherited via Observer
-	virtual void update(int lightID, glm::vec3 newVector, OBSERVABLE_OBJECTS type) override;
+	virtual void update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type) override;
+
+	// Inherited via Observer
+	virtual void update(int elementIndex, float newValue, OBSERVABLE_OBJECTS type) override;
 };
 
