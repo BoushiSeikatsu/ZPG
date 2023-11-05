@@ -135,11 +135,13 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraCallback.cpp" />
     <ClCompile Include="ComplexShape.cpp" />
+    <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="Lighting.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="ObserverSubject.cpp" />
+    <ClCompile Include="PlayerActionCallback.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="Scale.cpp" />
@@ -159,6 +161,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraCallback.h" />
     <ClInclude Include="ComplexShape.h" />
+    <ClInclude Include="Flashlight.h" />
     <ClInclude Include="Lighting.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Models\bushes.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="Models\tree.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="ObserverSubject.h" />
+    <ClInclude Include="PlayerActionCallback.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="Scale.h" />

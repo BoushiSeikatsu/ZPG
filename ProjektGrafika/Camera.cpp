@@ -43,7 +43,7 @@ bool Camera::setCameraFront(glm::vec3 cameraFrontVector)
 {
 	this->cameraFront = cameraFrontVector;
 	viewMatrix = glm::lookAt(this->cameraPosition, this->cameraPosition + this->cameraFront, this->cameraUp);
-	//notifyPropertyChanged(CAMERA_POSITION);
+	notifyPropertyChanged(CAMERA_DIRECTION);
 	notifyPropertyChanged(CAMERA_VIEW);
 	return true;
 }
@@ -95,6 +95,13 @@ void Camera::notifyPropertyChanged(OBSERVABLE_OBJECTS type)
 				observer->update(this->cameraPosition, type);
 			}
 			break;
+		}
+		case CAMERA_DIRECTION:
+		{
+			for (Observer* observer : followers)
+			{
+				observer->update(this->cameraFront, type);
+			}
 		}
 		default:
 		{

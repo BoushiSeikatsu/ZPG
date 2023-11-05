@@ -23,13 +23,17 @@ struct Material {
 
 struct Flashlight
 {
-	Light light;
-}
+	float cutoff;
+	vec3 lightColor;
+	bool activated;
+};
 
+uniform Flashlight flashlight;
 uniform Material material;
 uniform Light lights[MAX_LIGHTS];
 uniform int lightCount;
 uniform vec3 cameraPosition;
+uniform vec3 cameraDirection;
 //uniform vec3 lightPosition;
 //uniform vec3 lightColor;
 uniform vec3 objectColor;
@@ -37,7 +41,6 @@ uniform vec3 objectColor;
 vec3 pointLight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor);
 vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff);
 vec3 directional_light(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightDirection, vec3 lightColor);
-
 void main()
 {
 	vec3 result = vec3(0.0, 0.0, 0.0);
@@ -59,7 +62,10 @@ void main()
 			result += (directional_light(material, worldPosition, normalVector, lights[i].direction, lights[i].lightColor)) * objectColor;
 		}
 	}
-	
+	if(flashlight.activated)
+	{
+		result += (spotlight(material, worldPosition, normalVector, cameraPosition, cameraDirection, flashlight.lightColor, flashlight.cutoff)) * objectColor;
+	}
 	fragColor = vec4(ambient + result,1.0);
 }
 

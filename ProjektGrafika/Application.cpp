@@ -40,6 +40,8 @@ Application::~Application()
 		delete modelPair.second;
 		modelPair.second = nullptr;
 	}
+	delete flashlight;
+	flashlight = nullptr;
 }
 
 bool Application::initialize()
@@ -158,6 +160,7 @@ bool Application::createShaders()
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
 	camera->notifyPropertyChanged(CAMERA_POSITION);
+	camera->notifyPropertyChanged(CAMERA_DIRECTION);
 	glGetError();
 	return true;
 }
@@ -385,7 +388,7 @@ bool Application::createLighting()
 	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
 	light->addFollower(this->listOfShaderPrograms.find(0)->second);
 	light->addFollower(this->listOfShaderPrograms.find(1)->second);
-	//light->addFollower(this->listOfShaderPrograms.find(2)->second);
+	light->addFollower(this->listOfShaderPrograms.find(2)->second);
 	light->addFollower(this->listOfShaderPrograms.find(3)->second);
 	//Initialize light to starting values
 	light->notifyPropertyChanged(LIGHT_POSITION);
@@ -428,7 +431,14 @@ bool Application::createLighting()
 	light5->notifyPropertyChanged(LIGHT_DIRECTION);
 	light5->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 4,light5 });
+
+	this->flashlight = new Flashlight(glm::vec3(0.5, 0.5, 0.5), glm::cos(glm::radians(60.0f)));
+	this->flashlight->addFollower(this->listOfShaderPrograms.find(2)->second);
+	this->flashlight->notifyPropertyChanged(LIGHT_COLOR);
+	this->flashlight->notifyPropertyChanged(LIGHT_CUTOFF);
+	this->flashlight->use();
 	return true;
+
 }
 
 void Application::run()
@@ -438,7 +448,6 @@ void Application::run()
 	SceneCallback::setSceneLimit(5);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		switch (SceneCallback::getSceneIndex())
 		{

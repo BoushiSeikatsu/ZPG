@@ -15,7 +15,9 @@ enum OBSERVABLE_OBJECTS
 	CAMERA = 512,
 	LIGHT = 1024,
 	LIGHT_CUTOFF = 2048,
-	LIGHT_DIRECTION = 4096
+	LIGHT_DIRECTION = 4096,
+	FLASHLIGHT_ACTIVE = 8192,
+	CAMERA_DIRECTION = 16384
 };
 
 class Observer
@@ -23,6 +25,7 @@ class Observer
 private:
 public:
 	virtual int confirmSubjectAdded(OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(bool newValue, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) = 0;

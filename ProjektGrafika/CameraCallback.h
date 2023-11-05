@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Camera.h"
 #include "SceneCallback.h"
+#include "PlayerActionCallback.h"
 class CameraCallback : public Camera
 {
 private:

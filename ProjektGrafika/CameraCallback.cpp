@@ -62,34 +62,40 @@ void CameraCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int
     Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
     const float cameraSpeed = 0.05f;
     glm::vec3 outputVector;
-    switch (key) {
+    switch (key)
+    {
     //case 'GLFW_ESCAPE_KEY': 
-    case 'W':  outputVector = camera->getCameraPosition() + (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
-    case 'S': outputVector = camera->getCameraPosition() - (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
-    case 'A': 
-    {
-        outputVector = camera->getCameraPosition() - (glm::normalize(glm::cross(camera->getCameraFront(), camera->getCameraUp())) * cameraSpeed);
-        camera->setCameraPosition(outputVector);
-        break;
-    } 
-    case 'D':
-    {
-        outputVector = camera->getCameraPosition() + (glm::normalize(glm::cross(camera->getCameraFront(), camera->getCameraUp())) * cameraSpeed);
-        camera->setCameraPosition(outputVector);
-        break;
-    }
-    case GLFW_KEY_RIGHT:
-    {
-        //We should make main Callback class and that will distribute the calls to other Callback classes
-        SceneCallback::onKeyPressed(window, key, scancode, action, mods);
-        break;
-    }
-    case GLFW_KEY_LEFT:
-    {
-        SceneCallback::onKeyPressed(window, key, scancode, action, mods);
-        break;
-    }
-    default: break;
+        case 'W':  outputVector = camera->getCameraPosition() + (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
+        case 'S': outputVector = camera->getCameraPosition() - (cameraSpeed * camera->getCameraFront()); camera->setCameraPosition(outputVector); break;
+        case 'A': 
+        {
+            outputVector = camera->getCameraPosition() - (glm::normalize(glm::cross(camera->getCameraFront(), camera->getCameraUp())) * cameraSpeed);
+            camera->setCameraPosition(outputVector);
+            break;
+        } 
+        case 'D':
+        {
+            outputVector = camera->getCameraPosition() + (glm::normalize(glm::cross(camera->getCameraFront(), camera->getCameraUp())) * cameraSpeed);
+            camera->setCameraPosition(outputVector);
+            break;
+        }
+        case 'F':
+        {
+            PlayerActionCallback::onKeyPressed(window, key, scancode, action, mods);
+            break;
+        }
+        case GLFW_KEY_RIGHT:
+        {
+            //We should make main Callback class and that will distribute the calls to other Callback classes
+            SceneCallback::onKeyPressed(window, key, scancode, action, mods);
+            break;
+        }
+        case GLFW_KEY_LEFT:
+        {
+            SceneCallback::onKeyPressed(window, key, scancode, action, mods);
+            break;
+        }
+        default: break;
     }
 }
 

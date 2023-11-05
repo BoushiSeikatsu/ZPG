@@ -31,6 +31,7 @@
 #include "Scale.h"
 #include "Camera.h"
 #include "Lighting.h"
+#include "Flashlight.h"
 
 
 
@@ -48,6 +49,8 @@ private:
 	map<int, TransformationComposite*> listOfTransformations;
 	map<int, Lighting*> listOfLights;
 	Camera* camera;
+	Flashlight* flashlight;
+	std::vector<void*> windowPointers;
 public:
 	Application();
 	~Application();

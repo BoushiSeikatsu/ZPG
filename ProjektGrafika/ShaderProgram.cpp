@@ -95,7 +95,9 @@ void ShaderProgram::update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type)
 	}
 	disable();
 }
-
+/*
+There is only one flashlight and therefore LIGHT_X is referring to the flashlight 
+*/
 void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 {
 	use();
@@ -107,6 +109,12 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 			glUniform3fv(cPVectorLocation, 1, &newVector[0]);
 			break;
 		}
+		case CAMERA_DIRECTION:
+		{
+			GLint cdVectorLocation = glGetUniformLocation(*this->shaderProgram, "cameraDirection");
+			glUniform3fv(cdVectorLocation, 1, &newVector[0]);
+			break;
+		}
 		case LIGHT_POSITION:
 		{
 			GLint lpVectorLocation = glGetUniformLocation(*this->shaderProgram, "lightPosition");
@@ -115,7 +123,7 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 		}
 		case LIGHT_COLOR:
 		{
-			GLint lcVectorLocation = glGetUniformLocation(*this->shaderProgram, "lightColor");
+			GLint lcVectorLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.lightColor");
 			glUniform3fv(lcVectorLocation, 1, &newVector[0]);
 			break;
 		}
@@ -146,7 +154,9 @@ void ShaderProgram::update(glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 	}
 	disable();
 }
-
+/*
+LIGHT_CUTOFF refers to cutoff of flashlight, for lights use function with ID parameter
+*/
 void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 {
 	this->use();
@@ -158,6 +168,12 @@ void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 			glUniform1f(msFloatLocation, newValue);
 			break;
 		}
+		case LIGHT_CUTOFF:
+		{
+			GLint lcFloatLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.cutoff");
+			glUniform1f(lcFloatLocation, newValue);
+			break;
+		}
 		default:
 		{
 			printf("Wrong type of observable object passed into shader - float part!\n");
@@ -165,7 +181,9 @@ void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 	}
 	this->disable();
 }
-
+/*
+Lights are in array and thus LIGHT_X is referring to specific types of lights placed somewhere in the scene
+*/
 void ShaderProgram::update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type)
 {
 	use();
@@ -211,6 +229,25 @@ void ShaderProgram::update(int elementIndex, float newValue, OBSERVABLE_OBJECTS 
 		default:
 		{
 			printf("Wrong type of observable object in update for float array values!\n");
+		}
+	}
+	this->disable();
+}
+
+void ShaderProgram::update(bool newValue, OBSERVABLE_OBJECTS type)
+{
+	this->use();
+	switch (type)
+	{
+		case FLASHLIGHT_ACTIVE:
+		{
+			GLint faBooleanLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.activated");
+			glUniform1i(faBooleanLocation, newValue);
+			break;
+		}
+		default:
+		{
+			printf("Wrong observable object type passed into bool update function!\n");
 		}
 	}
 	this->disable();
