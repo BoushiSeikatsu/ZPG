@@ -262,7 +262,7 @@ void ShaderProgram::update(int newValue, OBSERVABLE_OBJECTS type)
 	{
 		case TEXTURE_CHANGE:
 		{
-			GLint txBooleanLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.activated");
+			GLint txBooleanLocation = glGetUniformLocation(*this->shaderProgram, "material.textureUnitID");
 			glUniform1i(txBooleanLocation, newValue);
 			break;
 		}

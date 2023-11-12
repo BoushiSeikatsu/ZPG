@@ -156,6 +156,14 @@ bool Application::createShaders()
 	//Adding ShaderProgram into map
 	this->listOfShaderPrograms.insert({ 5,scene2WithoutControl });
 
+	ShaderProgram* textureShader = new ShaderProgram();
+	textureShader->add("Shaders/pos&normal&texture.vert", GL_VERTEX_SHADER, 1);
+	textureShader->add("Shaders/phong_test_texture.frag", GL_FRAGMENT_SHADER, 1);
+	textureShader->assembleProgram();
+	camera->addFollower(textureShader);
+
+	this->listOfShaderPrograms.insert({ 6,textureShader });
+
 	//Set start camera for all the shaders
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
@@ -169,8 +177,12 @@ bool Application::createShaders()
 
 bool Application::createModels()
 {
-	//Scene 1 
+	Material* materialSkybox = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
+	Texture* textureSkybox = new Texture(1, "Skycube");
 	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
+	Texture* texture = new Texture(0, "Textures/grass.png");
+	material->setTexture(texture);
+	//Scene 1 
 	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
 	scene1_1->setProgram(listOfShaderPrograms.find(2)->second);
 	scene1_1->setMaterial(material);
@@ -222,8 +234,8 @@ bool Application::createModels()
 	listOfModels.insert({ 8,scene4_4 });
 	
 	//Scene 5
-	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR,glm::vec3(0.9,0.9,0.9));
-	scene5_1->setProgram(listOfShaderPrograms.find(2)->second);
+	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR | TEXTURE,glm::vec3(0.9,0.9,0.9));
+	scene5_1->setProgram(listOfShaderPrograms.find(6)->second);
 	scene5_1->setMaterial(material);
 	scene5_1->runTransformation(listOfTransformations.find(5)->second);
 	listOfModels.insert({ 9,scene5_1 });

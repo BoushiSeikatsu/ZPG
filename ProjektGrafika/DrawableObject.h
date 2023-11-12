@@ -42,5 +42,6 @@ public:
 	void runTransformation(Transformation* composite);
 	void setProgram(ShaderProgram* p);
 	void setMaterial(Material* m);
+	void setMaterial(Material* m, Texture* t);
 };
 

@@ -3,6 +3,7 @@
 
 in vec4 worldPosition;
 in vec3 normalVector;
+in vec2 textureVector;
 
 out vec4 fragColor;
 
@@ -19,6 +20,7 @@ struct Material {
 	vec3 diffuse;
 	vec3 specular;
 	float shininess;
+	sampler2D textureUnitID;
 };
 
 struct Flashlight
@@ -36,7 +38,7 @@ uniform vec3 cameraPosition;
 uniform vec3 cameraDirection;
 //uniform vec3 lightPosition;
 //uniform vec3 lightColor;
-uniform vec3 objectColor;
+//uniform vec3 objectColor;
 
 vec3 pointLight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor);
 vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff);
@@ -45,6 +47,7 @@ void main()
 {
 	vec3 result = vec3(0.0, 0.0, 0.0);
 	//Ambient part
+	vec3 objectColor = texture(material.textureUnitID, textureVector).xyz;
 	vec3 ambient = material.ambient * vec3(0.1, 0.1, 0.1);
 	for(int i = 0;i<lightCount;i++)
 	{
@@ -66,7 +69,9 @@ void main()
 	{
 		result += (spotlight(material, worldPosition, normalVector, cameraPosition, cameraDirection, flashlight.lightColor, flashlight.cutoff)) * objectColor;
 	}
-	fragColor = vec4(ambient + result,1.0);
+	//fragColor = vec4(ambient + result,1.0);
+	//fragColor = texture(material.textureUnitID, textureVector);
+	fragColor = vec4(objectColor,1.0);
 }
 
 vec3 pointLight(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor)

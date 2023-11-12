@@ -92,3 +92,17 @@ void DrawableObject::setMaterial(Material* m)
 	this->material->notifyPropertyChanged(MATERIAL_SPECULAR);
 	this->material->notifyPropertyChanged(MATERIAL_SHININESS);
 }
+
+void DrawableObject::setMaterial(Material* m, Texture* t)
+{
+	this->material = m;
+	//Add shader of this material into followers
+	this->material->addFollower(this->program);
+	//Notify that all 4 properties have changed (we setup the material)
+	this->material->notifyPropertyChanged(MATERIAL_AMBIENT);
+	this->material->notifyPropertyChanged(MATERIAL_DIFFUSE);
+	this->material->notifyPropertyChanged(MATERIAL_SPECULAR);
+	this->material->notifyPropertyChanged(MATERIAL_SHININESS);
+
+	this->material->setTexture(t);
+}

@@ -1,6 +1,6 @@
 #pragma once
 #include <GL/glew.h>
-#include "SOIL.H"
+#include <SOIL.h>
 #include <string>
 #include <vector>
 using namespace std;
@@ -8,9 +8,10 @@ class Texture
 {
 private:
 	int textureCore;
-	vector<char*> textures;
+	//vector<const char*> textures;
+	const char* textureLocation;
 public:
-	Texture(int textureCore, vector<char*> textures);
+	Texture(int textureCore, const char* textureLocation);
 	int getCore();
 };
 
