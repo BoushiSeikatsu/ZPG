@@ -13,5 +13,6 @@ private:
 public:
 	Texture(int textureCore, const char* textureLocation);
 	int getCore();
+	bool isSkybox();
 };
 

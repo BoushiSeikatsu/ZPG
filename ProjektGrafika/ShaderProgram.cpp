@@ -255,14 +255,14 @@ void ShaderProgram::update(bool newValue, OBSERVABLE_OBJECTS type)
 	this->disable();
 }
 
-void ShaderProgram::update(int newValue, OBSERVABLE_OBJECTS type)
+void ShaderProgram::update(int newValue, const char* varName, OBSERVABLE_OBJECTS type)
 {
 	this->use();
 	switch (type)
 	{
 		case TEXTURE_CHANGE:
 		{
-			GLint txBooleanLocation = glGetUniformLocation(*this->shaderProgram, "material.textureUnitID");
+			GLint txBooleanLocation = glGetUniformLocation(*this->shaderProgram, varName);
 			glUniform1i(txBooleanLocation, newValue);
 			break;
 		}

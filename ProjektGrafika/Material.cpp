@@ -102,8 +102,17 @@ void Material::notifyPropertyChanged(OBSERVABLE_OBJECTS type)
 		{
 			for (Observer* observer : followers)
 			{
-				observer->update(this->texture->getCore(), type);
+				if (this->texture->isSkybox())
+				{
+					observer->update(this->texture->getCore(), "UISky", type);
+				}
+				else
+				{
+					observer->update(this->texture->getCore(), "material.textureUnitID", type);
+				}
+				
 			}
+			break;
 		}
 		default:
 		{

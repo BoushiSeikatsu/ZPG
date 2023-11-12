@@ -151,7 +151,6 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
-    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationComposite.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="DrawableObject.h" />
-    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationComposite.h" />
@@ -201,6 +199,8 @@
     <None Include="Shaders\phong.frag" />
     <None Include="Shaders\pos&amp;normal&amp;texture.vert" />
     <None Include="Shaders\pos&amp;normal.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

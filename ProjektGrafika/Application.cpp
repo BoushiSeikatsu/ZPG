@@ -7,6 +7,7 @@
 #include "Models/gift.h"
 #include "Models/plain.h"
 #include "Models/bushes.h"
+#include "Models/skycube.h"
 
 void error_callback(int, const char* err_str)
 {
@@ -164,6 +165,14 @@ bool Application::createShaders()
 
 	this->listOfShaderPrograms.insert({ 6,textureShader });
 
+	ShaderProgram* skyboxShader = new ShaderProgram();
+	skyboxShader->add("Shaders/skybox.vert", GL_VERTEX_SHADER, 1);
+	skyboxShader->add("Shaders/skybox.frag", GL_FRAGMENT_SHADER, 1);
+	skyboxShader->assembleProgram();
+	camera->addFollower(skyboxShader);
+
+	this->listOfShaderPrograms.insert({ 7, skyboxShader });
+
 	//Set start camera for all the shaders
 	camera->notifyPropertyChanged(CAMERA_VIEW);
 	camera->notifyPropertyChanged(CAMERA_PERSPECTIVE);
@@ -179,6 +188,14 @@ bool Application::createModels()
 {
 	Material* materialSkybox = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
 	Texture* textureSkybox = new Texture(1, "Skycube");
+	//materialSkybox->setTexture(textureSkybox);
+
+	DrawableObject* SkyBox = new DrawableObject(MAKE_COMPLEX, skycube, (GLsizeiptr)sizeof(skycube), 0, 108, VERTICES);
+	SkyBox->setProgram(listOfShaderPrograms.find(7)->second);
+	SkyBox->setMaterial(materialSkybox,textureSkybox);
+	//SkyBox->runTransformation(listOfTransformations.find(0)->second);
+	listOfModels.insert({ 200,SkyBox });
+
 	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
 	Texture* texture = new Texture(0, "Textures/grass.png");
 	material->setTexture(texture);
@@ -461,8 +478,11 @@ void Application::run()
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		listOfModels.find(200)->second->drawShape();
+		glClear(GL_DEPTH_BUFFER_BIT);
 		switch (SceneCallback::getSceneIndex())
 		{
+			
 			case 0:
 			{
 				listOfModels.find(0)->second->drawShape();

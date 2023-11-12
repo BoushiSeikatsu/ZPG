@@ -31,7 +31,7 @@ public:
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) = 0;
-	virtual void update(int newValue, OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(int newValue, const char* varName, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(int elementIndex, float newValue, OBSERVABLE_OBJECTS type) = 0;
 };
