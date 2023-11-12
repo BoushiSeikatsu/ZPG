@@ -17,7 +17,8 @@ enum OBSERVABLE_OBJECTS
 	LIGHT_CUTOFF = 2048,
 	LIGHT_DIRECTION = 4096,
 	FLASHLIGHT_ACTIVE = 8192,
-	CAMERA_DIRECTION = 16384
+	CAMERA_DIRECTION = 16384,
+	TEXTURE_CHANGE = 32768
 };
 
 class Observer
@@ -29,6 +30,7 @@ public:
 	virtual void update(glm::mat4 newMatrix, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(float newValue, OBSERVABLE_OBJECTS type) = 0;
+	virtual void update(int newValue, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(int elementIndex, glm::vec3 newVector, OBSERVABLE_OBJECTS type) = 0;
 	virtual void update(int elementIndex, float newValue, OBSERVABLE_OBJECTS type) = 0;
 };

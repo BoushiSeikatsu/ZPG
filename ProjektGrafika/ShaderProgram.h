@@ -45,5 +45,8 @@ public:
 
 	// Inherited via Observer
 	virtual void update(bool newValue, OBSERVABLE_OBJECTS type) override;
+
+	// Inherited via Observer
+	void update(int newValue, OBSERVABLE_OBJECTS type) override;
 };
 

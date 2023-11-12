@@ -102,10 +102,11 @@ void Camera::notifyPropertyChanged(OBSERVABLE_OBJECTS type)
 			{
 				observer->update(this->cameraFront, type);
 			}
+			break;
 		}
 		default:
 		{
-			printf("Wrong observable object type!\n");
+			printf("Wrong observable object type passed into camera notify - %d\n",type);
 			break;
 		}
 	}

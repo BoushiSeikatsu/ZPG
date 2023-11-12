@@ -222,7 +222,7 @@ bool Application::createModels()
 	listOfModels.insert({ 8,scene4_4 });
 	
 	//Scene 5
-	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR);
+	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR,glm::vec3(0.9,0.9,0.9));
 	scene5_1->setProgram(listOfShaderPrograms.find(2)->second);
 	scene5_1->setMaterial(material);
 	scene5_1->runTransformation(listOfTransformations.find(5)->second);
@@ -334,8 +334,8 @@ bool Application::createTransformation()
 	listOfTransformations.insert({ 4,compositeScene2 });
 
 	//Scene 5
-	Scale* scene_5Plain = new Scale(glm::vec3(30.0f, 0.0f, 30.0f));
-	Translate* scene_5Plain2 = new Translate(glm::vec3(10.0f, -1.f, 10.f));
+	Scale* scene_5Plain = new Scale(glm::vec3(20.0f, 1.0f, 20.0f));
+	Translate* scene_5Plain2 = new Translate(glm::vec3(-0.1f, -1.f, -0.1f));
 	TransformationComposite* compositeScene5Plain = new TransformationComposite();
 	compositeScene5Plain->add(scene_5Plain);
 	compositeScene5Plain->add(scene_5Plain2);
@@ -415,7 +415,7 @@ bool Application::createLighting()
 	light3->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 2,light });
 
-	Lighting* light4 = new Lighting(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.001f, 0.0f, -1.0f), glm::cos(glm::radians(60.0f)));
+	Lighting* light4 = new Lighting(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.001f, 0.0f, -1.0f), glm::cos(glm::radians(20.0f)));
 	//light4->addFollower(this->listOfShaderPrograms.find(2)->second);
 	light4->notifyPropertyChanged(LIGHT_POSITION);
 	light4->notifyPropertyChanged(LIGHT_COLOR);
@@ -432,7 +432,7 @@ bool Application::createLighting()
 	light5->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->listOfLights.insert({ 4,light5 });
 
-	this->flashlight = new Flashlight(glm::vec3(0.5, 0.5, 0.5), glm::cos(glm::radians(60.0f)));
+	this->flashlight = new Flashlight(glm::vec3(0.5, 0.5, 0.5), glm::cos(glm::radians(20.0f)));
 	this->flashlight->addFollower(this->listOfShaderPrograms.find(2)->second);
 	this->flashlight->notifyPropertyChanged(LIGHT_COLOR);
 	this->flashlight->notifyPropertyChanged(LIGHT_CUTOFF);

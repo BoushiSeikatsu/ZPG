@@ -233,7 +233,9 @@ void ShaderProgram::update(int elementIndex, float newValue, OBSERVABLE_OBJECTS 
 	}
 	this->disable();
 }
-
+/*
+We could consider merging update for bool and int values
+*/
 void ShaderProgram::update(bool newValue, OBSERVABLE_OBJECTS type)
 {
 	this->use();
@@ -251,6 +253,20 @@ void ShaderProgram::update(bool newValue, OBSERVABLE_OBJECTS type)
 		}
 	}
 	this->disable();
+}
+
+void ShaderProgram::update(int newValue, OBSERVABLE_OBJECTS type)
+{
+	this->use();
+	switch (type)
+	{
+		case TEXTURE_CHANGE:
+		{
+			GLint txBooleanLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.activated");
+			glUniform1i(txBooleanLocation, newValue);
+			break;
+		}
+	}
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)

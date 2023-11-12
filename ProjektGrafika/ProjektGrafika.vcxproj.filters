@@ -93,6 +93,9 @@
     <ClCompile Include="PlayerActionCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -185,6 +188,9 @@
     <ClInclude Include="PlayerActionCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\phong.frag">
@@ -202,5 +208,13 @@
     <None Include="Shaders\lambert.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="phong_test_texture.frag">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shaders\pos&amp;normal&amp;texture.vert.txt">
+      <Filter>Shaders</Filter>
+    </Text>
   </ItemGroup>
 </Project>

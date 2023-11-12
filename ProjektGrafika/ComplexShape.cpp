@@ -39,7 +39,22 @@ bool ComplexShape::setupVertexObjects(GLuint* VBO, GLuint* VAO)
     }
     else if (Flags == (VERTICES | COLOR | TEXTURE))
     {
-        return true;
+        glBindBuffer(GL_ARRAY_BUFFER, *VBO);
+        glBindVertexArray(*VAO); //bind the VAO
+        glEnableVertexAttribArray(0); //enable vertex attributes
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, NULL);
+
+        //auto loc = glGetAttribLocation(idProgram, "vColor");Dobry napad, kouknout na to doma
+        //glEnableVertexAttribArray(loc);
+        glEnableVertexAttribArray(1); //enable vertex attributes
+        /*
+        stride(5 parametr) znamena rozestup mezi elementy
+        Mame vertices a pak barvu, mame xyzw, w je weight a potom pro barvu rgbt, t je transparentnost, takze dohromady 8 hodnot, hodnoty jsou od sebe o 8 prvku
+        */
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(6 * sizeof(float)));
     }
     return false;
 }

@@ -76,14 +76,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\include;D:\DUB0074\Lib\glm-master\glm-master;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\include;D:\DUB0074\Lib\glm-master\glm-master;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\include;D:\DUB0074\Lib\soil-master\include\SOIL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32;D:\DUB0074\Lib\soil-master\include\SOIL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,6 +151,7 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="TransformationComposite.cpp" />
     <ClCompile Include="Translate.cpp" />
@@ -183,17 +184,22 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="DrawableObject.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="TransformationComposite.h" />
     <ClInclude Include="Translate.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="phong_test_texture.frag" />
     <None Include="Shaders\ambient.frag" />
     <None Include="Shaders\blinn.frag" />
     <None Include="Shaders\lambert.frag" />
     <None Include="Shaders\phong.frag" />
     <None Include="Shaders\pos&amp;normal.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shaders\pos&amp;normal&amp;texture.vert.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

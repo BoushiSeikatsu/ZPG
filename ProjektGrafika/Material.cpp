@@ -8,6 +8,12 @@ Material::Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, flo
 	this->shininess = shininess;
 }
 
+Material::~Material()
+{
+	delete this->texture;
+	this->texture = nullptr;
+}
+
 void Material::changeMaterial(glm::vec3 newVector,OBSERVABLE_OBJECTS type)
 {
 	switch (type)
@@ -42,6 +48,12 @@ void Material::changeMaterial(float shininess)
 {
 	this->shininess = shininess;
 	notifyPropertyChanged(MATERIAL_SHININESS);
+}
+
+void Material::setTexture(Texture* texture)
+{
+	this->texture = texture;
+	notifyPropertyChanged(TEXTURE_CHANGE);
 }
 
 bool Material::addFollower(Observer* follower)
@@ -85,6 +97,13 @@ void Material::notifyPropertyChanged(OBSERVABLE_OBJECTS type)
 				observer->update(this->shininess, type);
 			}
 			break;
+		}
+		case TEXTURE_CHANGE:
+		{
+			for (Observer* observer : followers)
+			{
+				observer->update(this->texture->getCore(), type);
+			}
 		}
 		default:
 		{
