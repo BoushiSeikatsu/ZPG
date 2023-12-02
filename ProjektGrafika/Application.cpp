@@ -52,13 +52,13 @@ bool Application::initialize()
 		fprintf(stderr, "ERROR: could not start GLFW3\n");
 		exit(EXIT_FAILURE);
 	}
-	
-	 //inicializace konkretni verze
-	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,
-	GLFW_OPENGL_CORE_PROFILE);*/ 
+
+	//inicializace konkretni verze
+   /*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+   glfwWindowHint(GLFW_OPENGL_PROFILE,
+   GLFW_OPENGL_CORE_PROFILE);*/
 	window = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
 	if (!window) {
 		glfwTerminate();
@@ -122,7 +122,7 @@ bool Application::createShaders()
 	this->listOfShaderPrograms.insert({ 1,lambertShader });
 
 	ShaderProgram* phongShader = new ShaderProgram();
-	phongShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER,1);
+	phongShader->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
 	phongShader->add("Shaders/phong.frag", GL_FRAGMENT_SHADER, 1);
 	phongShader->assembleProgram();
 	//Adding ShaderProgram as follower
@@ -192,13 +192,23 @@ bool Application::createModels()
 
 	DrawableObject* SkyBox = new DrawableObject(MAKE_COMPLEX, skycube, (GLsizeiptr)sizeof(skycube), 0, 108, VERTICES);
 	SkyBox->setProgram(listOfShaderPrograms.find(7)->second);
-	SkyBox->setMaterial(materialSkybox,textureSkybox);
+	SkyBox->setMaterial(materialSkybox, textureSkybox);
 	//SkyBox->runTransformation(listOfTransformations.find(0)->second);
 	listOfModels.insert({ 200,SkyBox });
 
 	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
 	Texture* texture = new Texture(0, "Textures/grass.png");
 	material->setTexture(texture);
+
+	//Test load modelu
+	Texture* textureModelLoad = new Texture(2, "Textures/model.png");
+	Material* material2 = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
+	material2->setTexture(textureModelLoad);
+
+	DrawableObject* testModelLoad = new DrawableObject("Models/model.obj", VERTICES | COLOR | TEXTURE);
+	testModelLoad->setProgram(listOfShaderPrograms.find(6)->second);
+	testModelLoad->setMaterial(material2);
+	listOfModels.insert({ 201,testModelLoad });
 	//Scene 1 
 	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
 	scene1_1->setProgram(listOfShaderPrograms.find(2)->second);
@@ -249,9 +259,9 @@ bool Application::createModels()
 	scene4_4->setMaterial(material);
 	scene4_4->runTransformation(listOfTransformations.find(3)->second);
 	listOfModels.insert({ 8,scene4_4 });
-	
+
 	//Scene 5
-	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR | TEXTURE,glm::vec3(0.9,0.9,0.9));
+	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR | TEXTURE, glm::vec3(0.9, 0.9, 0.9));
 	scene5_1->setProgram(listOfShaderPrograms.find(6)->second);
 	scene5_1->setMaterial(material);
 	scene5_1->runTransformation(listOfTransformations.find(5)->second);
@@ -265,51 +275,51 @@ bool Application::createModels()
 		DrawableObject* tmp;
 		switch (objectTypeChoice)
 		{
-			case 0:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-				break;
-			}
-			case 1:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
-				break;
-			}
-			case 2:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
-				break;
-			}
-			case 3:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, tree, (GLsizeiptr)sizeof(tree), 0, 92814, VERTICES | COLOR);
-				break;
-			}
-			case 4:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, gift, (GLsizeiptr)sizeof(gift), 0, 66624, VERTICES | COLOR);
-				break;
-			}
-			case 5:
-			{
-				tmp = new DrawableObject(MAKE_COMPLEX, bushes, (GLsizeiptr)sizeof(bushes), 0, 8730, VERTICES | COLOR);
-				break;
-			}
-			default:
-			{
-				tmp = nullptr;
-				printf("Wrong value passed into Scene 5 creation!\n");
-				exit(EXIT_FAILURE);
-			}
+		case 0:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
+			break;
 		}
-		
+		case 1:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
+			break;
+		}
+		case 2:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
+			break;
+		}
+		case 3:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, tree, (GLsizeiptr)sizeof(tree), 0, 92814, VERTICES | COLOR);
+			break;
+		}
+		case 4:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, gift, (GLsizeiptr)sizeof(gift), 0, 66624, VERTICES | COLOR);
+			break;
+		}
+		case 5:
+		{
+			tmp = new DrawableObject(MAKE_COMPLEX, bushes, (GLsizeiptr)sizeof(bushes), 0, 8730, VERTICES | COLOR);
+			break;
+		}
+		default:
+		{
+			tmp = nullptr;
+			printf("Wrong value passed into Scene 5 creation!\n");
+			exit(EXIT_FAILURE);
+		}
+		}
+
 		tmp->setProgram(listOfShaderPrograms.find(shaderChoice)->second);
 		tmp->setMaterial(material);
 		tmp->runTransformation(listOfTransformations.find(transformationChoice)->second);
 		listOfModels.insert({ i,tmp });
 	}
 	//Scene 2
-	DrawableObject* sun = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR,glm::vec3(1,0.98,0));
+	DrawableObject* sun = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR, glm::vec3(1, 0.98, 0));
 	sun->setProgram(listOfShaderPrograms.find(2)->second);
 	sun->setMaterial(material);
 	sun->runTransformation(listOfTransformations.find(105)->second);
@@ -325,7 +335,7 @@ bool Application::createModels()
 	moon->setProgram(listOfShaderPrograms.find(2)->second);
 	moon->setMaterial(material);
 	moon->runTransformation(listOfTransformations.find(107)->second);
-	listOfModels.insert({ 122, moon});
+	listOfModels.insert({ 122, moon });
 
 	glGetError();
 	return true;
@@ -333,7 +343,7 @@ bool Application::createModels()
 
 bool Application::createTransformation()
 {
-	
+
 
 	//Scene 1
 	Translate* t1 = new Translate(glm::vec3(3.f, 0.0f, 0.0f));
@@ -376,7 +386,7 @@ bool Application::createTransformation()
 		int zTranslate = rand() % 30 + 1;
 		int randomAngle = rand() % 360;
 		Translate* tmp1 = new Translate(glm::vec3(xTranslate, yTranslate, zTranslate));
-		Rotate* tmp2 = new Rotate(randomAngle,glm::vec3(rand()%2, rand() % 2, rand() % 2));
+		Rotate* tmp2 = new Rotate(randomAngle, glm::vec3(rand() % 2, rand() % 2, rand() % 2));
 		TransformationComposite* tmp3 = new TransformationComposite();
 		tmp3->add(tmp1);
 		tmp3->add(tmp2);
@@ -391,7 +401,7 @@ bool Application::createTransformation()
 	compositeSun->add(sunSize);
 	listOfTransformations.insert({ 105,compositeSun });
 
-	Translate* earthMove = new Translate(glm::vec3(15.0f, 0.0f,0.0f));
+	Translate* earthMove = new Translate(glm::vec3(15.0f, 0.0f, 0.0f));
 	Rotate* rotateEarth = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
 	TransformationComposite* compositeEarth = new TransformationComposite();
 	compositeEarth->add(rotateEarth);
@@ -402,7 +412,7 @@ bool Application::createTransformation()
 	Rotate* moonRotate = new Rotate(0.01, glm::vec3(0.0f, 1.0f, 0.0f));
 	Translate* moonMove = new Translate(glm::vec3(3.0f, 0.0f, 0.0f));
 	TransformationComposite* compositeMoon = new TransformationComposite();
-	
+
 	compositeMoon->add(compositeEarth);
 	compositeMoon->add(moonSize);
 	compositeMoon->add(moonRotate);
@@ -482,52 +492,53 @@ void Application::run()
 		glClear(GL_DEPTH_BUFFER_BIT);
 		switch (SceneCallback::getSceneIndex())
 		{
-			
-			case 0:
+
+		case 0:
+		{
+			listOfModels.find(0)->second->drawShape();
+			listOfModels.find(1)->second->drawShape();
+			listOfModels.find(2)->second->drawShape();
+			listOfModels.find(3)->second->drawShape();
+			break;
+		}
+		case 1:
+		{
+			listOfModels.find(120)->second->drawShape();
+			listOfModels.find(121)->second->drawShape();
+			listOfModels.find(122)->second->drawShape();
+			listOfTransformations.find(106)->second->changeAngle(0.005);
+			listOfModels.find(121)->second->runTransformation(listOfTransformations.find(106)->second);
+			listOfTransformations.find(107)->second->changeAngle(0.001);
+			listOfModels.find(122)->second->runTransformation(listOfTransformations.find(107)->second);
+			break;
+		}
+		case 2:
+		{
+			listOfModels.find(4)->second->drawShape();
+			break;
+		}
+		case 3:
+		{
+			listOfModels.find(5)->second->drawShape();
+			listOfModels.find(6)->second->drawShape();
+			listOfModels.find(7)->second->drawShape();
+			listOfModels.find(8)->second->drawShape();
+			break;
+		}
+		case 4:
+		{
+			listOfModels.find(201)->second->drawShape();
+			for (int i = 9; i < 120; i++)
 			{
-				listOfModels.find(0)->second->drawShape();
-				listOfModels.find(1)->second->drawShape();
-				listOfModels.find(2)->second->drawShape();
-				listOfModels.find(3)->second->drawShape();
-				break;
-			}
-			case 1:
-			{
-				listOfModels.find(120)->second->drawShape();
-				listOfModels.find(121)->second->drawShape();
-				listOfModels.find(122)->second->drawShape();
-				listOfTransformations.find(106)->second->changeAngle(0.005);
-				listOfModels.find(121)->second->runTransformation(listOfTransformations.find(106)->second);
-				listOfTransformations.find(107)->second->changeAngle(0.001);
-				listOfModels.find(122)->second->runTransformation(listOfTransformations.find(107)->second);
-				break;
-			}
-			case 2:
-			{
-				listOfModels.find(4)->second->drawShape();
-				break;
-			}
-			case 3:
-			{
-				listOfModels.find(5)->second->drawShape();
-				listOfModels.find(6)->second->drawShape();
-				listOfModels.find(7)->second->drawShape();
-				listOfModels.find(8)->second->drawShape();
-				break;
-			}
-			case 4:
-			{
-				for (int i = 9; i < 120; i++)
-				{
-					listOfModels.find(i)->second->drawShape();
-				}
+				listOfModels.find(i)->second->drawShape();
 			}
 		}
-		
-		
+		}
 
-		
-		
+
+
+
+
 		glfwPollEvents();
 		// put the stuff we’ve been drawing onto the display
 		glfwSwapBuffers(window);

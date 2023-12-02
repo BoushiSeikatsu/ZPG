@@ -76,14 +76,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\include;D:\DUB0074\Lib\glm-master\glm-master;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\include;D:\DUB0074\Lib\soil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\include;..\Lib\glm-master\glm-master;..\Lib\glew-2.1.0-win32\glew-2.1.0\include;..\Lib\soil\include;..\Lib\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\DUB0074\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\DUB0074\Lib\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32;D:\DUB0074\Lib\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Lib\glfw-3.3.8.bin.WIN32\glfw-3.3.8.bin.WIN32\lib-vc2022;..\Lib\glew-2.1.0-win32\glew-2.1.0\lib\Release\Win32;..\Lib\soil\lib;..\Lib\assimp\lib\Win32\v140\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

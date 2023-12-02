@@ -44,7 +44,7 @@ private:
 	do listu by se dal pridat atribut indexShader ktery by v sobe mel pozici shaderu v listOfShaders
 	*/
 	map<int, DrawableObject*> listOfModels;
-	map<int,ShaderProgram*> listOfShaderPrograms;
+	map<int, ShaderProgram*> listOfShaderPrograms;
 	map<int, TransformationComposite*> listOfTransformations;
 	map<int, Lighting*> listOfLights;
 	Camera* camera;
@@ -60,4 +60,3 @@ public:
 	bool createLighting();
 	void run();
 };
-
