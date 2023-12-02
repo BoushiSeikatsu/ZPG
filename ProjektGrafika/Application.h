@@ -32,7 +32,6 @@
 #include "Camera.h"
 #include "Lighting.h"
 #include "Flashlight.h"
-#include "Skybox.h"
 
 
 class Application
