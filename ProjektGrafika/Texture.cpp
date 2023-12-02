@@ -33,6 +33,7 @@ Texture::Texture(int textureCore, const char* textureLocation)
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 
+
 	this->textureLocation = textureLocation;
 }
 

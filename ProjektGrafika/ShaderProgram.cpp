@@ -267,6 +267,7 @@ void ShaderProgram::update(int newValue, const char* varName, OBSERVABLE_OBJECTS
 			break;
 		}
 	}
+	this->disable();
 }
 
 bool ShaderProgram::linkTransformation(const char* matrixName, glm::mat4 matrix)

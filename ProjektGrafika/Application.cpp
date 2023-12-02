@@ -149,8 +149,8 @@ bool Application::createShaders()
 	this->listOfShaderPrograms.insert({ 4,scene2WithControl });
 
 	ShaderProgram* scene2WithoutControl = new ShaderProgram();
-	scene2WithoutControl->add("Shaders/pos&normal.vert", GL_VERTEX_SHADER, 1);
-	scene2WithoutControl->add("Shaders/phongScene3_2.frag", GL_FRAGMENT_SHADER, 1);
+	scene2WithoutControl->add("Shaders/pos&normal&texture.vert", GL_VERTEX_SHADER, 1);
+	scene2WithoutControl->add("Shaders/phong_test_texture.frag", GL_FRAGMENT_SHADER, 1);
 	scene2WithoutControl->assembleProgram();
 	//Adding ShaderProgram as follower
 	camera->addFollower(scene2WithoutControl);
@@ -198,16 +198,14 @@ bool Application::createModels()
 
 	Material* material = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
 	Texture* texture = new Texture(0, "Textures/grass.png");
-	material->setTexture(texture);
 
 	//Test load modelu
 	Texture* textureModelLoad = new Texture(2, "Textures/model.png");
 	Material* material2 = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
-	material2->setTexture(textureModelLoad);
 
 	DrawableObject* testModelLoad = new DrawableObject("Models/model.obj", VERTICES | COLOR | TEXTURE);
 	testModelLoad->setProgram(listOfShaderPrograms.find(6)->second);
-	testModelLoad->setMaterial(material2);
+	testModelLoad->setMaterial(material2, textureModelLoad);
 	listOfModels.insert({ 201,testModelLoad });
 	//Scene 1 
 	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
@@ -262,8 +260,8 @@ bool Application::createModels()
 
 	//Scene 5
 	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR | TEXTURE, glm::vec3(0.9, 0.9, 0.9));
-	scene5_1->setProgram(listOfShaderPrograms.find(6)->second);
-	scene5_1->setMaterial(material);
+	scene5_1->setProgram(listOfShaderPrograms.find(5)->second);
+	scene5_1->setMaterial(material, texture);
 	scene5_1->runTransformation(listOfTransformations.find(5)->second);
 	listOfModels.insert({ 9,scene5_1 });
 
