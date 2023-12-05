@@ -174,6 +174,12 @@ void ShaderProgram::update(float newValue, OBSERVABLE_OBJECTS type)
 			glUniform1f(lcFloatLocation, newValue);
 			break;
 		}
+		case LIGHT_CUTOFF_OUT:
+		{
+			GLint lcFloatLocation = glGetUniformLocation(*this->shaderProgram, "flashlight.outerCutoff");
+			glUniform1f(lcFloatLocation, newValue);
+			break;
+		}
 		default:
 		{
 			printf("Wrong type of observable object passed into shader - float part!\n");

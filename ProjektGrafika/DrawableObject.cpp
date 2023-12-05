@@ -55,6 +55,7 @@ bool DrawableObject::drawShape()
 	useVAO();
 	program->linkTransformation("modelMatrix", this->matrix);
 	program->setObjectColor(this->objectColor);//For now its every frame, later move it to somewhere else
+	//material->notifyPropertyChanged(TEXTURE_CHANGE);
 	shape->createShape();
 	program->disable();
 	return true;

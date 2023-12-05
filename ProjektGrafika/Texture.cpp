@@ -20,6 +20,26 @@ Texture::Texture(int textureCore, const char* textureLocation)
 		glActiveTexture(GL_TEXTURE2);
 		break;
 	}
+	case 3:
+	{
+		glActiveTexture(GL_TEXTURE3);
+		break;
+	}
+	case 4:
+	{
+		glActiveTexture(GL_TEXTURE4);
+		break;
+	}
+	case 5:
+	{
+		glActiveTexture(GL_TEXTURE5);
+		break;
+	}
+	case 6:
+	{
+		glActiveTexture(GL_TEXTURE6);
+		break;
+	}
 	}
 	//If texture is meant for skycube or not
 	if (strcmp(textureLocation, "Skycube") == 0)

@@ -1,9 +1,10 @@
 #include "Flashlight.h"
 
-Flashlight::Flashlight(glm::vec3 lightColor, float cutoff)
+Flashlight::Flashlight(glm::vec3 lightColor, float cutoff, float outerCutoff)
 {
     this->lightColor = lightColor;
     this->cutoff = cutoff;
+    this->outerCutoff = outerCutoff;
 }
 
 void Flashlight::use()
@@ -46,6 +47,14 @@ void Flashlight::notifyPropertyChanged(OBSERVABLE_OBJECTS type)
             for (Observer* observer : followers)
             {
                 observer->update(this->cutoff, type);
+            }
+            break;
+        }
+        case LIGHT_CUTOFF_OUT:
+        {
+            for (Observer* observer : followers)
+            {
+                observer->update(this->outerCutoff, type);
             }
             break;
         }

@@ -10,6 +10,7 @@ struct Light
 {
     vec3 position;
     vec3 direction;
+	float outerCutoff;
     float cutoff;
     vec3 lightColor;
 };
@@ -24,6 +25,7 @@ struct Material {
 struct Flashlight
 {
 	float cutoff;
+	float outerCutoff;
 	vec3 lightColor;
 	bool activated;
 };
@@ -39,7 +41,7 @@ uniform vec3 cameraDirection;
 uniform vec3 objectColor;
 
 vec3 pointLight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor);
-vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff);
+vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff, float outerCutoff);
 vec3 directional_light(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightDirection, vec3 lightColor);
 void main()
 {
@@ -50,7 +52,7 @@ void main()
 	{
 		if(lights[i].cutoff != -1)
 		{
-			result += (spotlight(material, worldPosition, normalVector, lights[i].position, lights[i].direction, lights[i].lightColor, lights[i].cutoff)) * objectColor;
+			result += (spotlight(material, worldPosition, normalVector, lights[i].position, lights[i].direction, lights[i].lightColor, lights[i].cutoff, lights[i].outerCutoff)) * objectColor;
 		}
 		else if(lights[i].direction == vec3(-1,-1,-1))
 		{
@@ -64,9 +66,10 @@ void main()
 	}
 	if(flashlight.activated)
 	{
-		result += (spotlight(material, worldPosition, normalVector, cameraPosition, cameraDirection, flashlight.lightColor, flashlight.cutoff)) * objectColor;
+		result += (spotlight(material, worldPosition, normalVector, cameraPosition, cameraDirection, flashlight.lightColor, flashlight.cutoff, flashlight.outerCutoff)) * objectColor;
 	}
 	fragColor = vec4(ambient + result,1.0);
+	//fragColor = vec4(flashlight.outerCutoff);
 }
 
 vec3 pointLight(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor)
@@ -92,13 +95,14 @@ vec3 pointLight(Material material,vec4 worldPosition, vec3 normalVector, vec3 li
 	return (diffuse + specular) * attenuation;
 }
 
-vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff)
+vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightDirection, vec3 lightColor, float cutoff, float outerCutoff)
 {
 	vec3 norm = normalize(normalVector);
 	vec3 lightDir = normalize(lightPosition - worldPosition.xyz/worldPosition.w);
-
 	float theta = dot(lightDir, normalize(-lightDirection));
-    if (theta <= cutoff) {
+	float epsilon = cutoff - outerCutoff;
+	float intensity = clamp((theta - outerCutoff) / epsilon, 0.0, 1.0);
+    if (theta <= outerCutoff) {
         return vec3(0.0, 0.0, 0.0);
     }
 
@@ -117,7 +121,8 @@ vec3 spotlight(Material material, vec4 worldPosition, vec3 normalVector, vec3 li
 
 	float distance = length(lightPosition - worldPosition.xyz/worldPosition.w);
 	float attenuation = 1.0 / (1.0 + 0.045 * distance + 0.0075 * (distance * distance));//constant, linear, quadratic costants in this order, for now for 100 distance
-
+	diffuse *= intensity;
+	specular *= intensity;
 	return (diffuse + specular) * attenuation;
 }
 

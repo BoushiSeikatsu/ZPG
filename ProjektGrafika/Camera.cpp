@@ -2,7 +2,7 @@
 //カメラはスフィアを見てて、スフィアは振り返っている
 Camera::Camera()
 {
-	this->cameraPosition = glm::vec3(0.0f, 0.0f, 6.0f);
+	this->cameraPosition = glm::vec3(0.0f, 1.0f, 15.0f);
 	this->cameraFront = glm::vec3(0.001f, 0.0f, -1.0f);//If x = 0 then first frame doesnt draw objects because matrix has nan values -> its because of our up value set to (0,1,0)
 	this->cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->viewMatrix = glm::lookAt(this->cameraPosition, this->cameraPosition + this->cameraFront, this->cameraUp);

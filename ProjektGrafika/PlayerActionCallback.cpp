@@ -1,6 +1,7 @@
 ﻿#include "PlayerActionCallback.h"
 
-
+int PlayerActionCallback::indexSelectedModel = 0;
+glm::vec3 PlayerActionCallback::positionSelectedModel;
 void PlayerActionCallback::onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	switch (key)
@@ -49,4 +50,6 @@ void PlayerActionCallback::onMouseClicked(GLFWwindow* window, float xCursor, flo
 	glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
 
 	printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
+	indexSelectedModel = index;
+	positionSelectedModel = pos;
 }

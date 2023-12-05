@@ -5,9 +5,10 @@ class Flashlight : public ObserverSubject
 private:
 	glm::vec3 lightColor;
 	float cutoff;
+	float outerCutoff;
 	bool active = false;
 public:
-	Flashlight(glm::vec3 lightColor, float cutoff);
+	Flashlight(glm::vec3 lightColor, float cutoff, float outerCutoff);
 	void use();
 	bool state();
 	void disable();
