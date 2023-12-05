@@ -8,11 +8,16 @@ class CameraCallback : public Camera
 {
 private:
 	static bool firstMouse;
+	static float cameraSpeed;
 	static float yaw;
 	static float pitch;
 	static float lastX;
 	static float lastY;
+	static float currentX;
+	static float currentY;
 	static bool rightClickPressed;
+	static bool leftClickPressed;
+	static bool leftShiftPressed;
 public:
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void onMouseMoved(GLFWwindow* window, double xpos, double ypos);

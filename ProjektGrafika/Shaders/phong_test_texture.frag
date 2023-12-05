@@ -69,9 +69,9 @@ void main()
 	{
 		result += (spotlight(material, worldPosition, normalVector, cameraPosition, cameraDirection, flashlight.lightColor, flashlight.cutoff)) * objectColor;
 	}
-	//fragColor = vec4(ambient + result,1.0);
+	fragColor = vec4(ambient + result,1.0);
 	//fragColor = texture(material.textureUnitID, textureVector);
-	fragColor = vec4(objectColor,1.0);
+	//fragColor = vec4(objectColor,1.0);
 }
 
 vec3 pointLight(Material material,vec4 worldPosition, vec3 normalVector, vec3 lightPosition, vec3 lightColor)

@@ -88,9 +88,10 @@ bool Application::initialize()
 	//Adding Camera
 	Camera* camera = new Camera();
 	this->camera = camera;
-	glfwSetMouseButtonCallback(window, CameraCallback::mouseButtonCallback);
+	camera->setResolution(800, 600);
 	//Binding camera into user pointer so we can use it in Callbacks
 	glfwSetWindowUserPointer(window, this->camera);
+	glfwSetMouseButtonCallback(window, CameraCallback::mouseButtonCallback);
 	//Locking cursor in the middle of the screen 
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//Binding mouse movement callback
@@ -186,7 +187,7 @@ bool Application::createShaders()
 
 bool Application::createModels()
 {
-	Material* materialSkybox = new Material(glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0, 1.0, 1.0), 16);
+	Material* materialSkybox = new Material(glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.2, 0.2, 0.2), 16);
 	Texture* textureSkybox = new Texture(1, "Skycube");
 	//materialSkybox->setTexture(textureSkybox);
 
@@ -207,56 +208,6 @@ bool Application::createModels()
 	testModelLoad->setProgram(listOfShaderPrograms.find(6)->second);
 	testModelLoad->setMaterial(material2, textureModelLoad);
 	listOfModels.insert({ 201,testModelLoad });
-	//Scene 1 
-	DrawableObject* scene1_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene1_1->setProgram(listOfShaderPrograms.find(2)->second);
-	scene1_1->setMaterial(material);
-	scene1_1->runTransformation(listOfTransformations.find(0)->second);
-	listOfModels.insert({ 0,scene1_1 });
-	DrawableObject* scene1_2 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene1_2->setProgram(listOfShaderPrograms.find(2)->second);
-	scene1_2->setMaterial(material);
-	scene1_2->runTransformation(listOfTransformations.find(1)->second);
-	listOfModels.insert({ 1,scene1_2 });
-	DrawableObject* scene1_3 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene1_3->setProgram(listOfShaderPrograms.find(2)->second);
-	scene1_3->setMaterial(material);
-	scene1_3->runTransformation(listOfTransformations.find(2)->second);
-	listOfModels.insert({ 2,scene1_3 });
-	DrawableObject* scene1_4 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene1_4->setProgram(listOfShaderPrograms.find(2)->second);
-	scene1_4->setMaterial(material);
-	scene1_4->runTransformation(listOfTransformations.find(3)->second);
-	listOfModels.insert({ 3,scene1_4 });
-
-	//Scene 3
-	DrawableObject* scene2_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene2_1->setProgram(listOfShaderPrograms.find(4)->second);//Change shader to 5 for shader without control of angle from dot product
-	scene2_1->setMaterial(material);
-	scene2_1->runTransformation(listOfTransformations.find(4)->second);
-	listOfModels.insert({ 4,scene2_1 });
-
-	//Scene 4
-	DrawableObject* scene4_1 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene4_1->setProgram(listOfShaderPrograms.find(2)->second);
-	scene4_1->setMaterial(material);
-	scene4_1->runTransformation(listOfTransformations.find(0)->second);
-	listOfModels.insert({ 5,scene4_1 });
-	DrawableObject* scene4_2 = new DrawableObject(MAKE_COMPLEX, suziFlat, (GLsizeiptr)sizeof(suziFlat), 0, 2904, VERTICES | COLOR);
-	scene4_2->setProgram(listOfShaderPrograms.find(2)->second);
-	scene4_2->setMaterial(material);
-	scene4_2->runTransformation(listOfTransformations.find(1)->second);
-	listOfModels.insert({ 6,scene4_2 });
-	DrawableObject* scene4_3 = new DrawableObject(MAKE_COMPLEX, suziSmooth, (GLsizeiptr)sizeof(suziSmooth), 0, 2904, VERTICES | COLOR);
-	scene4_3->setProgram(listOfShaderPrograms.find(2)->second);
-	scene4_3->setMaterial(material);
-	scene4_3->runTransformation(listOfTransformations.find(2)->second);
-	listOfModels.insert({ 7,scene4_3 });
-	DrawableObject* scene4_4 = new DrawableObject(MAKE_COMPLEX, sphere, (GLsizeiptr)sizeof(sphere), 0, 2880, VERTICES | COLOR);
-	scene4_4->setProgram(listOfShaderPrograms.find(2)->second);
-	scene4_4->setMaterial(material);
-	scene4_4->runTransformation(listOfTransformations.find(3)->second);
-	listOfModels.insert({ 8,scene4_4 });
 
 	//Scene 5
 	DrawableObject* scene5_1 = new DrawableObject(MAKE_COMPLEX, plain, (GLsizeiptr)sizeof(plain), 0, 6, VERTICES | COLOR | TEXTURE, glm::vec3(0.9, 0.9, 0.9));
@@ -341,38 +292,9 @@ bool Application::createModels()
 
 bool Application::createTransformation()
 {
-
-
-	//Scene 1
-	Translate* t1 = new Translate(glm::vec3(3.f, 0.0f, 0.0f));
-	TransformationComposite* compositeMoveLeft = new TransformationComposite();
-	compositeMoveLeft->add(t1);
-	listOfTransformations.insert({ 0,compositeMoveLeft });
-
-	Translate* t2 = new Translate(glm::vec3(-3.f, 0.0f, 0.0f));
-	TransformationComposite* compositeMoveRight = new TransformationComposite();
-	compositeMoveRight->add(t2);
-	listOfTransformations.insert({ 1,compositeMoveRight });
-
-	Translate* t3 = new Translate(glm::vec3(0.0f, 3.f, 0.0f));
-	TransformationComposite* compositeMoveUp = new TransformationComposite();
-	compositeMoveUp->add(t3);
-	listOfTransformations.insert({ 2,compositeMoveUp });
-
-	Translate* t4 = new Translate(glm::vec3(0.0f, -3.f, 0.f));
-	TransformationComposite* compositeMoveDown = new TransformationComposite();
-	compositeMoveDown->add(t4);
-	listOfTransformations.insert({ 3,compositeMoveDown });
-
-	//Scene 3
-	Translate* scene2_1 = new Translate(glm::vec3(0.f, 0.0f, 3.f));
-	TransformationComposite* compositeScene2 = new TransformationComposite();
-	compositeScene2->add(scene2_1);
-	listOfTransformations.insert({ 4,compositeScene2 });
-
 	//Scene 5
 	Scale* scene_5Plain = new Scale(glm::vec3(20.0f, 1.0f, 20.0f));
-	Translate* scene_5Plain2 = new Translate(glm::vec3(-0.1f, -1.f, -0.1f));
+	Translate* scene_5Plain2 = new Translate(glm::vec3(-0.1f, 0.f, -0.1f));
 	TransformationComposite* compositeScene5Plain = new TransformationComposite();
 	compositeScene5Plain->add(scene_5Plain);
 	compositeScene5Plain->add(scene_5Plain2);
@@ -380,14 +302,14 @@ bool Application::createTransformation()
 	for (int i = 6; i < 105; i++)
 	{
 		int xTranslate = rand() % 30 + 1;
-		int yTranslate = rand() % 2 + 1;
+		//int yTranslate = rand() % 2 + 1;
 		int zTranslate = rand() % 30 + 1;
 		int randomAngle = rand() % 360;
-		Translate* tmp1 = new Translate(glm::vec3(xTranslate, yTranslate, zTranslate));
-		Rotate* tmp2 = new Rotate(randomAngle, glm::vec3(rand() % 2, rand() % 2, rand() % 2));
+		Translate* tmp1 = new Translate(glm::vec3(xTranslate, 0, zTranslate));
+		//Rotate* tmp2 = new Rotate(randomAngle, glm::vec3(rand() % 2, rand() % 2, rand() % 2));
 		TransformationComposite* tmp3 = new TransformationComposite();
 		tmp3->add(tmp1);
-		tmp3->add(tmp2);
+		//tmp3->add(tmp2);
 		listOfTransformations.insert({ i,tmp3 });
 	}
 
@@ -421,56 +343,21 @@ bool Application::createTransformation()
 
 bool Application::createLighting()
 {
-	//Scene 1
-	Lighting* light = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
-	light->addFollower(this->listOfShaderPrograms.find(0)->second);
-	light->addFollower(this->listOfShaderPrograms.find(1)->second);
-	light->addFollower(this->listOfShaderPrograms.find(2)->second);
-	light->addFollower(this->listOfShaderPrograms.find(3)->second);
-	//Initialize light to starting values
-	light->notifyPropertyChanged(LIGHT_POSITION);
-	light->notifyPropertyChanged(LIGHT_COLOR);
-	light->notifyPropertyChanged(LIGHT_DIRECTION);
-	light->notifyPropertyChanged(LIGHT_CUTOFF);
-	this->listOfLights.insert({ 0,light });
-
 	//Scene 2
-	Lighting* light2 = new Lighting(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
-	light2->addFollower(this->listOfShaderPrograms.find(4)->second);
-	light2->addFollower(this->listOfShaderPrograms.find(5)->second);
-	light2->notifyPropertyChanged(LIGHT_POSITION);
-	light2->notifyPropertyChanged(LIGHT_COLOR);
-	light2->notifyPropertyChanged(LIGHT_DIRECTION);
-	light2->notifyPropertyChanged(LIGHT_CUTOFF);
-	this->listOfLights.insert({ 1,light2 });
-
-	Lighting* light3 = new Lighting(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), false);
-	//light3->addFollower(this->listOfShaderPrograms.find(2)->second);
-	light3->notifyPropertyChanged(LIGHT_POSITION);
-	light3->notifyPropertyChanged(LIGHT_COLOR);
-	light3->notifyPropertyChanged(LIGHT_DIRECTION);
-	light3->notifyPropertyChanged(LIGHT_CUTOFF);
-	this->listOfLights.insert({ 2,light });
-
-	Lighting* light4 = new Lighting(glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3(0.5, 0.5, 0.5), glm::vec3(0.001f, 0.0f, -1.0f), glm::cos(glm::radians(20.0f)));
-	//light4->addFollower(this->listOfShaderPrograms.find(2)->second);
-	light4->notifyPropertyChanged(LIGHT_POSITION);
-	light4->notifyPropertyChanged(LIGHT_COLOR);
-	light4->notifyPropertyChanged(LIGHT_DIRECTION);
-	light4->notifyPropertyChanged(LIGHT_CUTOFF);
-	this->listOfLights.insert({ 3,light4 });
-
-	Lighting* light5 = new Lighting(glm::vec3(10.f, 0.f, 0.f), glm::vec3(0.5, 0.5, 0.5), true);
-	light5->addFollower(this->listOfShaderPrograms.find(2)->second);
-	//Initialize light to starting values
-	light5->notifyPropertyChanged(LIGHT_POSITION);
-	light5->notifyPropertyChanged(LIGHT_COLOR);
-	light5->notifyPropertyChanged(LIGHT_DIRECTION);
-	light5->notifyPropertyChanged(LIGHT_CUTOFF);
-	this->listOfLights.insert({ 4,light5 });
+	Lighting* moonlight = new Lighting(glm::vec3(0.f, 10.f, 0.f), glm::vec3(0.1, 0.1, 0.1), false);
+	moonlight->addFollower(this->listOfShaderPrograms.find(4)->second);
+	moonlight->addFollower(this->listOfShaderPrograms.find(5)->second);
+	moonlight->addFollower(this->listOfShaderPrograms.find(6)->second);
+	moonlight->notifyPropertyChanged(LIGHT_POSITION);
+	moonlight->notifyPropertyChanged(LIGHT_COLOR);
+	moonlight->notifyPropertyChanged(LIGHT_DIRECTION);
+	moonlight->notifyPropertyChanged(LIGHT_CUTOFF);
+	this->listOfLights.insert({ 1,moonlight });
 
 	this->flashlight = new Flashlight(glm::vec3(0.5, 0.5, 0.5), glm::cos(glm::radians(20.0f)));
 	this->flashlight->addFollower(this->listOfShaderPrograms.find(2)->second);
+	this->flashlight->addFollower(this->listOfShaderPrograms.find(5)->second);
+	this->flashlight->addFollower(this->listOfShaderPrograms.find(6)->second);
 	this->flashlight->notifyPropertyChanged(LIGHT_COLOR);
 	this->flashlight->notifyPropertyChanged(LIGHT_CUTOFF);
 	this->flashlight->use();
@@ -482,24 +369,19 @@ void Application::run()
 {
 	//glClearColor(1.0, 0.0, 0.0, 1.0);
 	printf("Size of sphere: %d\n", sizeof(sphere));
-	SceneCallback::setSceneLimit(5);//Set number of scenes we will use
+	SceneCallback::setSceneLimit(2);//Set number of scenes we will use
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		listOfModels.find(200)->second->drawShape();
+		glStencilFunc(GL_ALWAYS, 200, 0xFF);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		switch (SceneCallback::getSceneIndex())
 		{
 
 		case 0:
-		{
-			listOfModels.find(0)->second->drawShape();
-			listOfModels.find(1)->second->drawShape();
-			listOfModels.find(2)->second->drawShape();
-			listOfModels.find(3)->second->drawShape();
-			break;
-		}
-		case 1:
 		{
 			listOfModels.find(120)->second->drawShape();
 			listOfModels.find(121)->second->drawShape();
@@ -510,24 +392,12 @@ void Application::run()
 			listOfModels.find(122)->second->runTransformation(listOfTransformations.find(107)->second);
 			break;
 		}
-		case 2:
-		{
-			listOfModels.find(4)->second->drawShape();
-			break;
-		}
-		case 3:
-		{
-			listOfModels.find(5)->second->drawShape();
-			listOfModels.find(6)->second->drawShape();
-			listOfModels.find(7)->second->drawShape();
-			listOfModels.find(8)->second->drawShape();
-			break;
-		}
-		case 4:
+		case 1:
 		{
 			listOfModels.find(201)->second->drawShape();
 			for (int i = 9; i < 120; i++)
 			{
+				glStencilFunc(GL_ALWAYS, i, 0xFF);
 				listOfModels.find(i)->second->drawShape();
 			}
 		}

@@ -60,6 +60,17 @@ glm::mat4 Camera::getProjection()
 	return this->projectionMatrix;
 }
 
+void Camera::setResolution(int width, int height)
+{
+	this->cameraResolution.width = width;
+	this->cameraResolution.height = height;
+}
+
+CameraResolution Camera::getResolution()
+{
+	return this->cameraResolution;
+}
+
 bool Camera::addFollower(Observer* follower)
 {
 	followers.push_back(follower);

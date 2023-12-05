@@ -2,18 +2,20 @@
 #include "ShaderProgram.h"
 #include "Translate.h"
 #include "ObserverSubject.h"
-//class ShaderProgram; // dopredna deklarace (z duvodu krizoveho odkazu)
+struct CameraResolution
+{
+	int width;
+	int height;
+};
 class Camera : public ObserverSubject
 {
-	/*
-	Ve chvili kdy se kamera zmeni treba stisknuti klavesy, tak by mela upozornit shader aby zmenil view a perspective matici
-	*/
 private:
 	glm::mat4 viewMatrix;
 	glm::vec3 cameraPosition;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
 	glm::mat4 projectionMatrix;
+	CameraResolution cameraResolution;
 public:
 	Camera();
 	glm::mat4 getView();
@@ -25,7 +27,8 @@ public:
 	bool setCameraFront(glm::vec3 directionVector);
 	bool setCameraPerspective(float fovy, float aspect, float near, float far);
 	glm::mat4 getProjection();
-
+	void setResolution(int width, int height);
+	CameraResolution getResolution();
 	// Inherited via ObserverSubject
 	virtual bool addFollower(Observer* follower) override;
 	virtual void notifyPropertyChanged(OBSERVABLE_OBJECTS type) override;
